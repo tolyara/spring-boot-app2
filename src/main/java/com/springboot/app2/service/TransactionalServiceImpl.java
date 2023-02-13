@@ -1,7 +1,7 @@
 package com.springboot.app2.service;
 
 import com.springboot.app2.dao.StudentRepository;
-import com.springboot.app2.Student;
+import com.springboot.app2.entity.Student;
 import org.springframework.stereotype.Service;
 
 @Service

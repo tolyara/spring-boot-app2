@@ -1,4 +1,4 @@
-package com.springboot.app2;
+package com.springboot.app2.entity;
 
 /*
     With Spring Version 6 and JDK 19 i got this problem:

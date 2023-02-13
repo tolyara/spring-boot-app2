@@ -1,6 +1,5 @@
 package com.springboot.app2.entity;
 
-import com.springboot.app2.Student;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
