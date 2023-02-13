@@ -1,6 +1,12 @@
-package domain;
+package com.springboot.app2;
 
-import javax.persistence.*;
+/*
+    With Spring Version 6 and JDK 19 i got this problem:
+    'java.lang.IllegalArgumentException: Not a managed type: class'
+    I was using javax.persistence.Entity when I used jakarta.persistence.Entity this problem was resolved
+ */
+//import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "students")

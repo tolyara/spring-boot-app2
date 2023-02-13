@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-//@EntityScan(basePackages = {"com.spring.boot.app2.entity.*"})
+//@EntityScan(basePackages = {"domain"})
+@EntityScan(basePackages = {"com.springboot.app2.entity"})
+
 //@EnableJpaRepositories
 public class App2Application {
 

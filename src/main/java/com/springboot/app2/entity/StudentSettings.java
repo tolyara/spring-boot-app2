@@ -1,6 +1,8 @@
-package com.spring.boot.app2.entity;
+package com.springboot.app2.entity;
 
-import javax.persistence.*;
+import com.springboot.app2.Student;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +17,7 @@ public class StudentSettings {
     private LocalDateTime createDate;
 
     @OneToOne
-    private Long studentId;
+    private Student student;
 
     public StudentSettings() {
     }
@@ -36,12 +38,12 @@ public class StudentSettings {
         this.createDate = createDate;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
 
