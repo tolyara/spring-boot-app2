@@ -1,7 +1,6 @@
-package com.spring.boot.app2.rest;
+package com.springboot.app2.rest;
 
-import com.spring.boot.app2.entity.Student;
-import com.spring.boot.app2.service.TransactionalService;
+import com.springboot.app2.service.TransactionalService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,7 @@ public class TransactionalController {
     }
 
     @PostMapping("/transactional")
-    public Object transactionalExecute(@RequestBody List<Student> students) {
+    public Object transactionalExecute(@RequestBody List<Object> students) {
         return transactionalService.updateStudent();
     }
 

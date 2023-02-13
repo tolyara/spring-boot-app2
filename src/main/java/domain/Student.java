@@ -1,9 +1,9 @@
-package com.spring.boot.app2.entity;
+package domain;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "student_settings")
+@Table(name = "students")
 public class Student {
 
     @Id
