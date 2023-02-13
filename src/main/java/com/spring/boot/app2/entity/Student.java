@@ -3,7 +3,7 @@ package com.spring.boot.app2.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "students")
+@Table(name = "student_settings")
 public class Student {
 
     @Id
