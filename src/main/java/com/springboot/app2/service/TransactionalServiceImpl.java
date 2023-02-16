@@ -4,6 +4,8 @@ import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.entity.StudentSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,17 +16,14 @@ import java.time.LocalDateTime;
 @Service
 public class TransactionalServiceImpl implements TransactionalService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final StudentRepository studentRepository;
     private final StudentSettingsRepository studentSettingsRepository;
-//    private final PlatformTransactionManager transactionManager;
-//    private final TransactionTemplate transactionTemplate;
 
-    public TransactionalServiceImpl(StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository
-//                                    PlatformTransactionManager transactionManager, TransactionTemplate transactionTemplate
-    ) {
+    public TransactionalServiceImpl(StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository) {
         this.studentRepository = studentRepository;
         this.studentSettingsRepository = studentSettingsRepository;
-//        this.transactionManager = transactionManager;
     }
 
     @Override
@@ -47,6 +46,7 @@ public class TransactionalServiceImpl implements TransactionalService {
     @Transactional
     public StudentSettings updateStudentSettings(Student student) {
         StudentSettings ss = studentSettingsRepository.findAllByStudentId(student.getId());
+        if (ss == null) return null;
         ss.setCreateDate(LocalDateTime.now());
         return studentSettingsRepository.save(ss);
     }
