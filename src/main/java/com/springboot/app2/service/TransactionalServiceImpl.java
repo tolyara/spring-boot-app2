@@ -4,13 +4,14 @@ import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.entity.StudentSettings;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,10 @@ public class TransactionalServiceImpl implements TransactionalService {
 
     private final StudentRepository studentRepository;
     private final StudentSettingsRepository studentSettingsRepository;
+
+//    @Resource
+//    @Autowired
+//    private PlatformTransactionManager platformTransactionManager;
 
     public TransactionalServiceImpl(StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository) {
         this.studentRepository = studentRepository;
