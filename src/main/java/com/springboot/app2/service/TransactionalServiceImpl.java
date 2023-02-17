@@ -33,28 +33,32 @@ public class TransactionalServiceImpl implements TransactionalService {
     }
 
     @Override
-    @Transactional
     public Student updateStudent(Student student) {
 //        Student newStudent1 = new Student();
 //        newStudent1 = studentRepository.save(newStudent1);
 //        newStudent1.setName("stud-" + newStudent1.getId());
 //        studentRepository.save(newStudent1);
 
-        Student existing = studentRepository.findById(student.getId()).get();
-        existing.setName(student.getName());
-        existing.setGrade(student.getGrade());
-        existing = studentRepository.save(existing);
-
+        Student existing = updateStudentData(student);
         updateStudentSettings(existing);
+        throwTestException(student);
         return existing;
     }
 
-//    @Transactional // REQUIRED by default, Support a current transaction, create a new one if none exists. (Method 2 executes in existing transaction of 'parent 'method 1)
+    @Transactional
+    private Student updateStudentData(Student student) {
+        Student existing = studentRepository.findById(student.getId()).get();
+        existing.setName(student.getName());
+        existing.setGrade(student.getGrade());
+        return studentRepository.save(existing);
+    }
+
+    @Transactional // REQUIRED by default, Support a current transaction, create a new one if none exists. (Method 2 executes in existing transaction of 'parent 'method 1)
 //    @Transactional(propagation = Propagation.REQUIRES_NEW) // Create a new transaction, and suspend the current transaction if one exists.
 //    @Transactional(propagation = Propagation.NESTED) // Execute within a nested transaction if a current transaction exists, behave like REQUIRED otherwise.
 
 //    @Transactional(propagation = Propagation.MANDATORY) // Support a current transaction, throw an exception if none exists.
-    @Transactional(propagation = Propagation.NEVER) // Execute non-transactionally, throw an exception if a transaction exists.
+//    @Transactional(propagation = Propagation.NEVER) // Execute non-transactionally, throw an exception if a transaction exists.
 //    @Transactional(propagation = Propagation.NOT_SUPPORTED) // Execute non-transactionally, suspend the current transaction if one exists.
 //    @Transactional(propagation = Propagation.SUPPORTS) // Support a current transaction, execute non-transactionally if none exists.
 
@@ -68,6 +72,12 @@ public class TransactionalServiceImpl implements TransactionalService {
         if (ss == null) return null;
         ss.setCreateDate(LocalDateTime.now());
         return studentSettingsRepository.save(ss);
+    }
+
+    private void throwTestException(Student student) {
+        if (student.getId().equals(1L)) {
+            throw new RuntimeException("For test");
+        }
     }
 
 }
