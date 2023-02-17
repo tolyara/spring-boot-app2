@@ -5,13 +5,15 @@ import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.entity.StudentSettings;
 import jakarta.annotation.Resource;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +25,9 @@ public class TransactionalServiceImpl implements TransactionalService {
     private final StudentRepository studentRepository;
     private final StudentSettingsRepository studentSettingsRepository;
 
-//    @Resource
+    @Resource
 //    @Autowired
-//    private PlatformTransactionManager platformTransactionManager;
+    private PlatformTransactionManager transactionManager;
 
     public TransactionalServiceImpl(StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository) {
         this.studentRepository = studentRepository;
@@ -39,13 +41,37 @@ public class TransactionalServiceImpl implements TransactionalService {
 //        newStudent1.setName("stud-" + newStudent1.getId());
 //        studentRepository.save(newStudent1);
 
-        Student existing = updateStudentData(student);
-        updateStudentSettings(existing);
-        throwTestException(student);
-        return existing;
+//        updateStudentTransactional(student);
+
+        DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+        definition.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        definition.setTimeout(3);
+
+        TransactionStatus status = transactionManager.getTransaction(definition);
+
+        Student existingStudent = null;
+        try {
+            existingStudent = updateStudentData(student);
+            updateStudentSettings(existingStudent);
+            throwTestException(student);
+            transactionManager.commit(status);
+        } catch (Exception e) {
+            logger.error("Student was not updated, cause : " + e);
+            transactionManager.rollback(status);
+            throw e;
+        }
+        return existingStudent;
     }
 
     @Transactional
+    public Student updateStudentTransactional(Student student) {
+        Student existingStudent = updateStudentData(student);
+        updateStudentSettings(existingStudent);
+        throwTestException(student);
+        return existingStudent;
+    }
+
+//    @Transactional
     private Student updateStudentData(Student student) {
         Student existing = studentRepository.findById(student.getId()).get();
         existing.setName(student.getName());
@@ -53,7 +79,7 @@ public class TransactionalServiceImpl implements TransactionalService {
         return studentRepository.save(existing);
     }
 
-    @Transactional // REQUIRED by default, Support a current transaction, create a new one if none exists. (Method 2 executes in existing transaction of 'parent 'method 1)
+//    @Transactional // REQUIRED by default, Support a current transaction, create a new one if none exists. (Method 2 executes in existing transaction of 'parent 'method 1)
 //    @Transactional(propagation = Propagation.REQUIRES_NEW) // Create a new transaction, and suspend the current transaction if one exists.
 //    @Transactional(propagation = Propagation.NESTED) // Execute within a nested transaction if a current transaction exists, behave like REQUIRED otherwise.
 
