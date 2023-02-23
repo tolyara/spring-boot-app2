@@ -15,8 +15,7 @@ public class LogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        logger.info("request.getRequestId() : " + request.getRequestId());
-        logger.info("request.getLocalAddr() : " + request.getLocalAddr());
+//        logger.info("request.getRequestId() : " + request.getRequestId());
         chain.doFilter(request, response);
     }
 
