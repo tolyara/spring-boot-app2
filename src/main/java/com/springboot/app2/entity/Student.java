@@ -60,6 +60,16 @@ public class Student {
         this.supervisorId = supervisorId;
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", grade=" + grade +
+                ", supervisorId=" + supervisorId +
+                '}';
+    }
+
 }
 
 

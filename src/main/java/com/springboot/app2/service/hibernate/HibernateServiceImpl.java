@@ -25,10 +25,17 @@ public class HibernateServiceImpl implements HibernateService {
         Session session = entityManager.unwrap(Session.class);
         logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
 
+        // caching, same entity
         Student student1 = session.get(Student.class, 1L);
         logger.info("student1 = {}", student1);
         Student student2 = session.get(Student.class, 1L);
         logger.info("student2 = {}", student2);
+
+        // no caching, different entities
+//        Student student1 = session.load(Student.class, 1L);
+//        logger.info("student1 = {}", student1);
+//        Student student2 = session.load(Student.class, 2L);
+//        logger.info("student2 = {}", student2);
     }
 
     @Override
