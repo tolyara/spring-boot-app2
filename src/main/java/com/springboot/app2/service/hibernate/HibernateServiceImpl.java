@@ -2,7 +2,9 @@ package com.springboot.app2.service.hibernate;
 
 import com.springboot.app2.entity.Student;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,27 +16,42 @@ public class HibernateServiceImpl implements HibernateService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public HibernateServiceImpl(EntityManager entityManager) {
+    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
         this.entityManager = entityManager;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
     public void testFirstCacheLevel() {
-        Session session = entityManager.unwrap(Session.class);
         logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
+//        Session session = entityManager.unwrap(Session.class);
+//        Session session2 = entityManager.unwrap(Session.class);
+
+        SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+
+        // no caching, different sessions
+        try (Session session = sessionFactory.openSession()) {
+            Student student1 = session.get(Student.class, 1L);
+            logger.info("student1 = {}", student1);
+        }
+        try (Session session2 = sessionFactory.openSession()) {
+            Student student2 = session2.get(Student.class, 1L);
+            logger.info("student2 = {}", student2);
+        }
 
         // caching, same entity
-        Student student1 = session.get(Student.class, 1L);
-        logger.info("student1 = {}", student1);
-        Student student2 = session.get(Student.class, 1L);
-        logger.info("student2 = {}", student2);
+//        Student student1 = session.get(Student.class, 1L);
+//        logger.info("student1 = {}", student1);
+//        Student student2 = session.get(Student.class, 1L);
+//        logger.info("student2 = {}", student2);
 
         // no caching, different entities
-//        Student student1 = session.load(Student.class, 1L);
+//        Student student1 = session.get(Student.class, 1L);
 //        logger.info("student1 = {}", student1);
-//        Student student2 = session.load(Student.class, 2L);
+//        Student student2 = session.get(Student.class, 2L);
 //        logger.info("student2 = {}", student2);
     }
 
