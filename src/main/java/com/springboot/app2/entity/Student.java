@@ -22,7 +22,8 @@ public class Student {
     @Column
     private Long grade;
 
-    @Column
+//    @Column
+    @Column(name = "supervisor_id")
     private Long supervisorId;
 
     public Student() {

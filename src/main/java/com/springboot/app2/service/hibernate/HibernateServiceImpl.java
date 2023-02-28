@@ -19,7 +19,9 @@ public class HibernateServiceImpl implements HibernateService {
     private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
+    public HibernateServiceImpl(EntityManager entityManager
+                                , EntityManagerFactory entityManagerFactory
+    ) {
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
     }
@@ -57,7 +59,16 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testSecondCacheLevel() {
+        SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
 
+        try (Session session = sessionFactory.openSession()) {
+            Student student1 = session.get(Student.class, 1L);
+            logger.info("student1 = {}", student1);
+        }
+        try (Session session2 = sessionFactory.openSession()) {
+            Student student2 = session2.get(Student.class, 1L);
+            logger.info("student2 = {}", student2);
+        }
     }
 
 }

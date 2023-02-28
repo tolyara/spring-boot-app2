@@ -16,6 +16,8 @@ public class HibernateController {
     @GetMapping("/hibernate")
     public void testHibernate() {
         hibernateService.testFirstCacheLevel();
+
+//        hibernateService.testSecondCacheLevel();
     }
 
 }

@@ -12,7 +12,8 @@ public class StudentSettings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+//    @Column
+    @Column(name = "create_date")
     private LocalDateTime createDate;
 
     @OneToOne
