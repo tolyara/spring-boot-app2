@@ -41,6 +41,15 @@ public class HibernateConfig {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.show_sql", "true");
+//        properties.setProperty("hibernate.format_sql", "true");
+//        properties.setProperty("hibernate.use_sql_comments", "true");
+
+        properties.setProperty("hibernate.cache.use_second_level_cache", "true");
+        properties.setProperty("hibernate.cache.use_query_cache", "true");
+        properties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+        properties.setProperty("hibernate.javax.cache.missing_cache_strategy", "create");
+
         return properties;
     }
 
