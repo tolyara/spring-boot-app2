@@ -6,4 +6,6 @@ public interface HibernateService {
 
     void testSecondCacheLevel();
 
+    void testDirtyCheck(Long id);
+
 }
