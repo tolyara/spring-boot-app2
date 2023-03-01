@@ -113,8 +113,8 @@ public class HibernateServiceImpl implements HibernateService {
         student.getPets().add(pet);
         studentRepository.save(student);
 
-//        without cascade it will be an error
-//        org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: com.springboot.app2.entity.Pet
+        // without cascade it will be an error
+        // org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: com.springboot.app2.entity.Pet
     }
 
     @Override
@@ -134,7 +134,12 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testCascadeTypeRemove(Long id) {
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student == null) return;
+        studentRepository.delete(student);
 
+        // without cascade it will be an error
+        // org.postgresql.util.PSQLException: ОШИБКА: UPDATE или DELETE в таблице "students" нарушает ограничение внешнего ключа "fka8kn88hrajcy2c0td4hc5p452" таблицы "pets"
     }
 
     @Override

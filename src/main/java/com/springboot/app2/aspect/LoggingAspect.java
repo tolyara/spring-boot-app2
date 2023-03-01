@@ -1,5 +1,6 @@
 package com.springboot.app2.aspect;
 
+import com.springboot.app2.util.LoggingUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -21,7 +22,7 @@ public class LoggingAspect {
     @Before("allHibernateMethods()")
     public void beforeHibernateMethodAdvice(JoinPoint jp) {
         MethodSignature ms = (MethodSignature) jp.getSignature();
-        logger.info("method {}.{}() called", ms.getMethod().getDeclaringClass().getSimpleName(), ms.getMethod().getName());
+        logger.info("{} method {}.{}() called", LoggingUtil.APP, ms.getMethod().getDeclaringClass().getSimpleName(), ms.getMethod().getName());
     }
 
 }

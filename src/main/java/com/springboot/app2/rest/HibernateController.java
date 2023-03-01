@@ -19,7 +19,8 @@ public class HibernateController {
 //        hibernateService.testFirstCacheLevel();
 //        hibernateService.testDirtyCheck(id);
 
-        hibernateService.testCascadeTypePersist();
+//        hibernateService.testCascadeTypePersist();
+        hibernateService.testCascadeTypeRemove(id);
     }
 
 }
