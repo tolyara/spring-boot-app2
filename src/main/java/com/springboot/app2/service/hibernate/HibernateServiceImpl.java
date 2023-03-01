@@ -17,40 +17,37 @@ public class HibernateServiceImpl implements HibernateService {
 
     private final EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public HibernateServiceImpl(EntityManager entityManager
-                                , EntityManagerFactory entityManagerFactory
-    ) {
+    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
+        this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
     }
 
     @Override
     public void testFirstCacheLevel() {
         logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
-//        Session session = entityManager.unwrap(Session.class);
-//        Session session2 = entityManager.unwrap(Session.class);
+        Session session = entityManager.unwrap(Session.class);
+        Session session2 = entityManager.unwrap(Session.class);
 
-        SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+        /*
+            no caching, different sessions
+         */
+//        testSecondCacheLevel();
 
-        // no caching, different sessions
-        try (Session session = sessionFactory.openSession()) {
-            Student student1 = session.get(Student.class, 1L);
-            logger.info("student1 = {}", student1);
-        }
-        try (Session session2 = sessionFactory.openSession()) {
-            Student student2 = session2.get(Student.class, 1L);
-            logger.info("student2 = {}", student2);
-        }
+        /*
+            caching, same entity
+         */
+        Student student1 = session.get(Student.class, 1L);
+        logger.info("student1 = {}", student1);
+        Student student2 = session.get(Student.class, 1L);
+        logger.info("student2 = {}", student2);
 
-        // caching, same entity
-//        Student student1 = session.get(Student.class, 1L);
-//        logger.info("student1 = {}", student1);
-//        Student student2 = session.get(Student.class, 1L);
-//        logger.info("student2 = {}", student2);
-
-        // no caching, different entities
+        /*
+            no caching, different entities
+         */
 //        Student student1 = session.get(Student.class, 1L);
 //        logger.info("student1 = {}", student1);
 //        Student student2 = session.get(Student.class, 2L);
@@ -59,7 +56,7 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testSecondCacheLevel() {
-        SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
+        logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         try (Session session = sessionFactory.openSession()) {
             Student student1 = session.get(Student.class, 1L);
