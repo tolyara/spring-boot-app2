@@ -1,4 +1,4 @@
-package com.springboot.app2.aspects;
+package com.springboot.app2.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

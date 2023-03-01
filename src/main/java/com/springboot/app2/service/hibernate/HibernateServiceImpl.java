@@ -23,18 +23,21 @@ public class HibernateServiceImpl implements HibernateService {
 
     private final EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Autowired
     public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
+        logger.info("class {} method {}()", Thread.currentThread().getStackTrace()[1].getClassName(),
+                Thread.currentThread().getStackTrace()[1].getMethodName());
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
-        this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
     }
 
     @PostConstruct
     public void postConstruct() {
-
+        logger.info("class {} method {}()", Thread.currentThread().getStackTrace()[1].getClassName(),
+                Thread.currentThread().getStackTrace()[1].getMethodName());
+        this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
     }
 
     @PreDestroy

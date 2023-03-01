@@ -1,5 +1,6 @@
 package com.springboot.app2.config;
 
+import com.springboot.app2.postprocessor.HibernatePostProcessor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,5 +19,10 @@ public class SpringConfig {
 //    public PlatformTransactionManager platformTransactionManager() {
 //        return new JtaTransactionManager();
 //    }
+
+    @Bean
+    public HibernatePostProcessor hibernatePostProcessor() {
+        return new HibernatePostProcessor();
+    }
 
 }
