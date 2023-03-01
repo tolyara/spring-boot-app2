@@ -1,6 +1,8 @@
 package com.springboot.app2.service.hibernate;
 
+import com.springboot.app2.dao.PetRepository;
 import com.springboot.app2.dao.StudentRepository;
+import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.util.LoggingUtil;
@@ -25,12 +27,18 @@ public class HibernateServiceImpl implements HibernateService {
     private final EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
     private final StudentRepository studentRepository;
+    private final StudentSettingsRepository studentSettingsRepository;
+    private final PetRepository petRepository;
     private SessionFactory sessionFactory;
 
     @Autowired
-    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory, StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
+    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory,
+                                StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository,
+                                PetRepository petRepository) {
         LoggingUtil.log(logger);
+        this.studentRepository = studentRepository;
+        this.studentSettingsRepository = studentSettingsRepository;
+        this.petRepository = petRepository;
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
     }
@@ -122,9 +130,23 @@ public class HibernateServiceImpl implements HibernateService {
 
     }
 
+    /*
+        he detach operation removes the entity from the persistent context. When we use CascadeType.DETACH, the child entity will also get removed from the persistent context.
+     */
     @Override
     public void testCascadeTypeDetach(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Student student = session.get(Student.class, id);
+            if (student == null) return;
+            Pet pet = student.getPets().get(0);
 
+            logger.info("{}", session.contains(student)); // true
+            logger.info("{}", session.contains(pet)); // true
+
+            session.detach(student);
+            logger.info("{}", session.contains(student)); // false
+            logger.info("{}", session.contains(pet)); // true if cascade DETACH present, false otherwise
+        }
     }
 
     @Override
