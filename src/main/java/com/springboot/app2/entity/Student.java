@@ -6,10 +6,14 @@ package com.springboot.app2.entity;
     I was using javax.persistence.Entity when I used jakarta.persistence.Entity this problem was resolved
  */
 //import javax.persistence.*;
+
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "students")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Student {
 
     @Id
@@ -22,8 +26,7 @@ public class Student {
     @Column
     private Long grade;
 
-//    @Column
-    @Column(name = "supervisor_id")
+    @Column
     private Long supervisorId;
 
     public Student() {
