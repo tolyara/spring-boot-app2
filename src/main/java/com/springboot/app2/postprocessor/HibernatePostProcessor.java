@@ -1,6 +1,7 @@
 package com.springboot.app2.postprocessor;
 
 import com.springboot.app2.service.hibernate.HibernateService;
+import com.springboot.app2.util.LoggingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -13,7 +14,7 @@ public class HibernatePostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof HibernateService) {
-            logger.info("BeforeInitialization : {}", beanName);
+            logger.info("{} BeforeInitialization of {}", LoggingUtil.APP, beanName);
         }
         return bean;  // you can return any other object as well
     }
@@ -21,7 +22,7 @@ public class HibernatePostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof HibernateService) {
-            logger.info("AfterInitialization : {}", beanName);
+            logger.info("{} AfterInitialization of {}", LoggingUtil.APP, beanName);
         }
         return bean;  // you can return any other object as well
     }

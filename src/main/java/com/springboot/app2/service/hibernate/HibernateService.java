@@ -8,7 +8,11 @@ public interface HibernateService {
 
     void testDirtyCheck(Long id);
 
-    void testCascadeType(Long id);
+    void testCascadeTypePersist();
+    void testCascadeTypeMerge(Long id);
+    void testCascadeTypeDetach(Long id);
+    void testCascadeTypeRefresh(Long id);
+    void testCascadeTypeRemove(Long id);
 
     void testOrphanRemoval(Long id);
 

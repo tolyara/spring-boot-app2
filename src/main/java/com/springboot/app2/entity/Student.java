@@ -10,6 +10,9 @@ package com.springboot.app2.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "students")
 @Cacheable
@@ -28,6 +31,9 @@ public class Student {
 
     @Column
     private Long supervisorId;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Pet> pets = new ArrayList<>();
 
     public Student() {
     }
@@ -62,6 +68,14 @@ public class Student {
 
     public void setSupervisorId(Long supervisorId) {
         this.supervisorId = supervisorId;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 
     @Override

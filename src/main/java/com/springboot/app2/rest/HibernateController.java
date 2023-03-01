@@ -17,7 +17,9 @@ public class HibernateController {
     @GetMapping("/hibernate/{id}")
     public void testHibernate(@PathVariable Long id) {
 //        hibernateService.testFirstCacheLevel();
-        hibernateService.testDirtyCheck(id);
+//        hibernateService.testDirtyCheck(id);
+
+        hibernateService.testCascadeTypePersist();
     }
 
 }

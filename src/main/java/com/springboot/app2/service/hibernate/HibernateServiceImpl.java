@@ -1,7 +1,10 @@
 package com.springboot.app2.service.hibernate;
 
+import com.springboot.app2.dao.StudentRepository;
+import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.util.LoggingUtil;
+import com.springboot.app2.util.RandomUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
@@ -14,20 +17,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class HibernateServiceImpl implements HibernateService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    public final int MAX_ID = 10000;
 
     private final EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
+    private final StudentRepository studentRepository;
     private SessionFactory sessionFactory;
 
     @Autowired
-    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
+    public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory, StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
         LoggingUtil.log(logger);
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
@@ -91,7 +93,7 @@ public class HibernateServiceImpl implements HibernateService {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             Student student = session.get(Student.class, id);
-            student.setSupervisorId((long) new Random().nextInt(MAX_ID) + 1);
+            student.setSupervisorId(RandomUtil.generateRandomLongValue());
             tx.commit();
 
 //            The code directly invokes the tx.commit method without invoking the session.save or session.update.
@@ -100,7 +102,38 @@ public class HibernateServiceImpl implements HibernateService {
     }
 
     @Override
-    public void testCascadeType(Long id) {
+    public void testCascadeTypePersist() {
+        Student student = new Student();
+        student.setName("stud-" + RandomUtil.generateRandomLongValue());
+
+        Pet pet = new Pet();
+        pet.setNick("Pet-" + RandomUtil.generateRandomLongValue());
+        pet.setStudent(student);
+
+        student.getPets().add(pet);
+        studentRepository.save(student);
+
+//        without cascade it will be an error
+//        org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: com.springboot.app2.entity.Pet
+    }
+
+    @Override
+    public void testCascadeTypeMerge(Long id) {
+
+    }
+
+    @Override
+    public void testCascadeTypeDetach(Long id) {
+
+    }
+
+    @Override
+    public void testCascadeTypeRefresh(Long id) {
+
+    }
+
+    @Override
+    public void testCascadeTypeRemove(Long id) {
 
     }
 
