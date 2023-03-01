@@ -8,4 +8,8 @@ public interface HibernateService {
 
     void testDirtyCheck(Long id);
 
+    void testCascadeType(Long id);
+
+    void testOrphanRemoval(Long id);
+
 }

@@ -1,6 +1,7 @@
 package com.springboot.app2.service.hibernate;
 
 import com.springboot.app2.entity.Student;
+import com.springboot.app2.util.LoggingUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
@@ -27,22 +28,20 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Autowired
     public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory) {
-        logger.info("class {} method {}()", Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName());
+        LoggingUtil.log(logger);
         this.entityManager = entityManager;
         this.entityManagerFactory = entityManagerFactory;
     }
 
     @PostConstruct
     public void postConstruct() {
-        logger.info("class {} method {}()", Thread.currentThread().getStackTrace()[1].getClassName(),
-                Thread.currentThread().getStackTrace()[1].getMethodName());
+        LoggingUtil.log(logger);
         this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
     }
 
     @PreDestroy
     public void preDestroy() {
-        logger.info("Closing sessionFactory");
+        LoggingUtil.log(logger);
         sessionFactory.close();
     }
 
@@ -98,6 +97,16 @@ public class HibernateServiceImpl implements HibernateService {
 //            The code directly invokes the tx.commit method without invoking the session.save or session.update.
 //            Since the person object is in the persistent state, the change to the field will automatically get saved to the database.
         }
+    }
+
+    @Override
+    public void testCascadeType(Long id) {
+
+    }
+
+    @Override
+    public void testOrphanRemoval(Long id) {
+
     }
 
 }
