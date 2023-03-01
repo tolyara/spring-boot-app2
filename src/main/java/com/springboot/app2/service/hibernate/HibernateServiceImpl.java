@@ -34,7 +34,7 @@ public class HibernateServiceImpl implements HibernateService {
 
     @PostConstruct
     public void postConstruct() {
-        logger.info("method {}() called", Thread.currentThread().getStackTrace()[1].getMethodName());
+
     }
 
     @PreDestroy
@@ -45,7 +45,7 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testFirstCacheLevel() {
-        logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
+//        logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
         Session session = entityManager.unwrap(Session.class);
         Session session2 = entityManager.unwrap(Session.class);
 
@@ -73,8 +73,6 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testSecondCacheLevel() {
-        logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
-
         try (Session session = sessionFactory.openSession()) {
             Student student1 = session.get(Student.class, 1L);
             logger.info("student1 = {}", student1);
@@ -87,6 +85,7 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testDirtyCheck(Long id) {
+        if (Long.compare(0, id) == 0) return;
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             Student student = session.get(Student.class, id);
