@@ -1,10 +1,7 @@
 package com.springboot.app2.rest;
 
 import com.springboot.app2.service.hibernate.HibernateService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HibernateController {
@@ -23,9 +20,14 @@ public class HibernateController {
         hibernateService.testCascadeTypePersist();
     }
 
-    @GetMapping("/hibernate/{id}")
-    public void testHibernate(@PathVariable Long id) {
-        hibernateService.testCascadeTypeDetach(id);
+    @GetMapping("/hibernate/{id}/{name}")
+    public void testHibernateGet(@PathVariable Long id, @PathVariable String name) {
+        hibernateService.testCascadeTypeMerge(id, name);
+    }
+
+    @DeleteMapping("/hibernate/{id}")
+    public void testHibernateDelete(@PathVariable Long id) {
+        hibernateService.testCascadeTypeRemove(id);
     }
 
 }

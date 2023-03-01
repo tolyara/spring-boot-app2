@@ -32,10 +32,14 @@ public class Student {
     @Column
     private Long supervisorId;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE}, mappedBy = "student")
     private List<Pet> pets = new ArrayList<>();
 
     public Student() {
+    }
+
+    public Student(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

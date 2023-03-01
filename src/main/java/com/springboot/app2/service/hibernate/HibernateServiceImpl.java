@@ -109,6 +109,9 @@ public class HibernateServiceImpl implements HibernateService {
         }
     }
 
+    /*
+        The persist operation makes a transient instance persistent. Cascade Type PERSIST propagates the persist operation from a parent to a child entity.
+     */
     @Override
     public void testCascadeTypePersist() {
         Student student = new Student();
@@ -125,9 +128,24 @@ public class HibernateServiceImpl implements HibernateService {
         // org.hibernate.TransientObjectException: object references an unsaved transient instance - save the transient instance before flushing: com.springboot.app2.entity.Pet
     }
 
+    /*
+        The merge operation copies the state of the given object onto the persistent object with the same identifier. CascadeType.MERGE propagates the merge operation from a parent to a child entity.
+     */
     @Override
-    public void testCascadeTypeMerge(Long id) {
+    public void testCascadeTypeMerge(Long id, String name) {
+        try (Session session = sessionFactory.openSession()) {
+            Pet dbPet = petRepository.findByStudentId(id).get(0);
+            Student student = new Student(id);
+            Pet pet = new Pet(dbPet.getId());
+            student.getPets().add(pet);
 
+            Transaction tx = session.beginTransaction();
+            student.setName("newName" + RandomUtil.generateRandomLongValue());
+            pet.setNick("newNick" + RandomUtil.generateRandomLongValue());
+            session.merge(student); // value "newNick" for pet won't be updated if cascade MERGE not set
+            session.flush();
+            tx.commit();
+        }
     }
 
     /*
@@ -149,11 +167,20 @@ public class HibernateServiceImpl implements HibernateService {
         }
     }
 
+    /*
+        Refresh operations reread the value of a given instance from the database.
+        In some cases, we may change an instance after persisting in the database, but later we need to undo those changes.
+        In that kind of scenario, this may be useful.
+        When we use this operation with Cascade Type REFRESH, the child entity also gets reloaded from the database whenever the parent entity is refreshed.
+     */
     @Override
     public void testCascadeTypeRefresh(Long id) {
 
     }
 
+    /*
+        As the name suggests, the remove operation removes the row corresponding to the entity from the database and also from the persistent context.
+     */
     @Override
     public void testCascadeTypeRemove(Long id) {
         Student student = studentRepository.findById(id).orElse(null);

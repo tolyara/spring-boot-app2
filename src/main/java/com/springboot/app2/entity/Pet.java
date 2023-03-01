@@ -16,9 +16,14 @@ public class Pet {
     private String nick;
 
     @ManyToOne
+    @JoinColumn(name="student_id")
     private Student student;
 
     public Pet() {
+    }
+
+    public Pet(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
