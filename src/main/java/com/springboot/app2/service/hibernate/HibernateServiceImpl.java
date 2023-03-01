@@ -1,6 +1,7 @@
 package com.springboot.app2.service.hibernate;
 
 import com.springboot.app2.entity.Student;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -31,9 +32,15 @@ public class HibernateServiceImpl implements HibernateService {
         this.sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
     }
 
+    @PostConstruct
+    public void postConstruct() {
+        logger.info("method {}() called", Thread.currentThread().getStackTrace()[1].getMethodName());
+    }
+
     @PreDestroy
     public void preDestroy() {
-        // TODO close sessionFactory
+        logger.info("Closing sessionFactory");
+        sessionFactory.close();
     }
 
     @Override
