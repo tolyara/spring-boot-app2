@@ -1,5 +1,7 @@
 package com.springboot.app2.config;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -13,6 +15,15 @@ import java.util.Properties;
 
 @Configuration
 public class HibernateConfig {
+
+    @Bean
+    public Module hibernateModule() {
+        Hibernate5Module hibernateModule = new Hibernate5Module();
+        hibernateModule.enable(Hibernate5Module.Feature.SERIALIZE_IDENTIFIER_FOR_LAZY_NOT_LOADED_OBJECTS);
+        hibernateModule.enable(Hibernate5Module.Feature.REQUIRE_EXPLICIT_LAZY_LOADING_MARKER);
+        hibernateModule.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
+        return hibernateModule;
+    }
 
 //    @Bean
 //    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

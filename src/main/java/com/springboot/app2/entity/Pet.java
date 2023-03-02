@@ -1,12 +1,12 @@
 package com.springboot.app2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pets")
 @NamedQuery(name = "Pet.byNick", query = "from Pet where nick = ?1")
+@NamedNativeQuery(name = "Pet.byStudent", query = "select * from pets where student_id = ?1", resultClass = Pet.class)
 public class Pet {
 
     @Id

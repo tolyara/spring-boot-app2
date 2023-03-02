@@ -236,15 +236,24 @@ public class HibernateServiceImpl implements HibernateService {
     }
 
     @Override
-    public Object testNamedQuery(Long id) {
+    public Object testNamedQuery(Long id, String name) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createNamedQuery("Pet.byNick", Pet.class);
-            query.setParameter(1, "Test");
+            Query query = session.createNamedQuery("Pet.byStudent", Pet.class);
+            query.setParameter(1, id);
 
             List<Pet> pets = query.getResultList();
             logger.info("Pets : {}", pets);
             return pets;
         }
+
+//        try (Session session = sessionFactory.openSession()) {
+//            Query query = session.createNamedQuery("Pet.byNick", Pet.class);
+//            query.setParameter(1, "Test");
+//
+//            List<Pet> pets = query.getResultList();
+//            logger.info("Pets : {}", pets);
+//            return pets;
+//        }
     }
 
 }

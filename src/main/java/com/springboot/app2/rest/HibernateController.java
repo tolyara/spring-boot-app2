@@ -27,7 +27,7 @@ public class HibernateController {
 
 //        hibernateService.testOrphanRemoval(id);
 
-        return hibernateService.testNamedQuery(id);
+        return hibernateService.testNamedQuery(id, name);
     }
 
     @DeleteMapping("/hibernate/{id}")

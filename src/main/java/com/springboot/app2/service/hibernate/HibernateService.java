@@ -16,6 +16,6 @@ public interface HibernateService {
 
     void testOrphanRemoval(Long id);
 
-    Object testNamedQuery(Long id);
+    Object testNamedQuery(Long id, String name);
 
 }
