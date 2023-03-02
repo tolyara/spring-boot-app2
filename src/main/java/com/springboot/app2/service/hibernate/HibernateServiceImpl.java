@@ -11,6 +11,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -136,7 +138,7 @@ public class HibernateServiceImpl implements HibernateService {
         try (Session session = sessionFactory.openSession()) {
             Pet dbPet = petRepository.findByStudentId(id).get(0);
             Student student = new Student(id);
-            Pet pet = new Pet(dbPet.getId());
+            Pet pet = new Pet(dbPet.getId(), student);
             student.getPets().add(pet);
 
             Transaction tx = session.beginTransaction();
@@ -175,7 +177,30 @@ public class HibernateServiceImpl implements HibernateService {
      */
     @Override
     public void testCascadeTypeRefresh(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Student student = session.get(Student.class, id);
 
+            logger.info("student before merge : {}", student);
+            logger.info("pet before merge : {}", !student.getPets().isEmpty() ? student.getPets().get(0) : "null");
+            try (Session session2 = sessionFactory.openSession()) {
+                Transaction tx = session2.beginTransaction();
+                Student studentForUpdate = new Student(id);
+                Pet petForUpdate = new Pet(student.getPets().get(0).getId(), studentForUpdate);
+                studentForUpdate.setName("testName" + RandomUtil.generateRandomLongValue());
+                petForUpdate.setNick("testNick" + RandomUtil.generateRandomLongValue());
+                studentForUpdate.getPets().add(petForUpdate);
+                session2.merge(studentForUpdate);
+                session2.flush();
+                tx.commit();
+            }
+
+            logger.info("student before refresh : {}", student);
+            session.refresh(student);
+
+            // value "testNick" for pet won't be refreshed if cascade REFRESH not set
+            logger.info("student : {}", student);
+            logger.info("pet : {}", !student.getPets().isEmpty() ? student.getPets().get(0) : "null");
+        }
     }
 
     /*

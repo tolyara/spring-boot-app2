@@ -32,7 +32,7 @@ public class Student {
     @Column
     private Long supervisorId;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE}, mappedBy = "student")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "student")
     private List<Pet> pets = new ArrayList<>();
 
     public Student() {

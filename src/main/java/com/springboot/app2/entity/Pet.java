@@ -22,8 +22,9 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(Long id) {
+    public Pet(Long id, Student student) {
         this.id = id;
+        this.student = student;
     }
 
     public Long getId() {
@@ -48,6 +49,15 @@ public class Pet {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "id=" + id +
+                ", nick='" + nick + '\'' +
+                ", studentId=" + student.getId() +
+                '}';
     }
 
 }
