@@ -21,6 +21,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @Service
 public class HibernateServiceImpl implements HibernateService {
 
@@ -218,7 +221,16 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public void testOrphanRemoval(Long id) {
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student == null) return;
 
+        logger.info("{} student pets before update: {}", LoggingUtil.APP, student.getPets().stream().map(Pet::toString).collect(Collectors.joining(", ")));
+//        student.setPets(new ArrayList<>()); // will cause exception -> org.hibernate.HibernateException: A collection with cascade="all-delete-orphan" was no longer referenced by the owning entity instance: com.springboot.app2.entity.Student.pets
+        student.getPets().clear();
+        studentRepository.save(student);
+
+        // pets won't be updated if orphanRemoval set to false
+        logger.info("{} student pets after update: {}", LoggingUtil.APP, petRepository.findByStudentId(id).stream().map(Pet::toString).collect(Collectors.joining(", ")));
     }
 
 }
