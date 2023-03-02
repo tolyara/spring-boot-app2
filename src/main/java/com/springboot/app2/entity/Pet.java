@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pets")
+@NamedQuery(name = "Pet.byNick", query = "from Pet where nick = ?1")
 public class Pet {
 
     @Id

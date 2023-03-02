@@ -21,11 +21,13 @@ public class HibernateController {
     }
 
     @GetMapping("/hibernate/{id}/{name}")
-    public void testHibernateGet(@PathVariable Long id, @PathVariable String name) {
+    public Object testHibernateGet(@PathVariable Long id, @PathVariable String name) {
 //        hibernateService.testCascadeTypeMerge(id, name);
 //        hibernateService.testCascadeTypeRefresh(id);
 
-        hibernateService.testOrphanRemoval(id);
+//        hibernateService.testOrphanRemoval(id);
+
+        return hibernateService.testNamedQuery(id);
     }
 
     @DeleteMapping("/hibernate/{id}")

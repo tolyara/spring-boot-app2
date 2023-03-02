@@ -11,6 +11,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -231,6 +233,18 @@ public class HibernateServiceImpl implements HibernateService {
 
         // pets won't be updated if orphanRemoval set to false
         logger.info("{} student pets after update: {}", LoggingUtil.APP, petRepository.findByStudentId(id).stream().map(Pet::toString).collect(Collectors.joining(", ")));
+    }
+
+    @Override
+    public Object testNamedQuery(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createNamedQuery("Pet.byNick", Pet.class);
+            query.setParameter(1, "Test");
+
+            List<Pet> pets = query.getResultList();
+            logger.info("Pets : {}", pets);
+            return pets;
+        }
     }
 
 }

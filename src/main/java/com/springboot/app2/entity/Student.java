@@ -7,6 +7,7 @@ package com.springboot.app2.entity;
  */
 //import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -34,6 +35,7 @@ public class Student {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             mappedBy = "student", orphanRemoval = true)
+    @JsonIgnore
     private List<Pet> pets = new ArrayList<>();
 
     public Student() {
