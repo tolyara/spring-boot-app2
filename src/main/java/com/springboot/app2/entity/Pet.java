@@ -18,6 +18,7 @@ public class Pet {
 
     @ManyToOne
     @JoinColumn(name="student_id")
+    @JsonIgnore
     private Student student;
 
     public Pet() {
