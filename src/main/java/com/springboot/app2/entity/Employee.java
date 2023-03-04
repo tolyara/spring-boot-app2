@@ -2,8 +2,15 @@ package com.springboot.app2.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * https://www.youtube.com/watch?v=YuRO9-rOgv4&ab_channel=kudvenkat - How do SQL Indexes Work
+ */
+
+/*
+    select * from employees
+ */
 @Entity
-@Table(name = "pets")
+@Table(name = "employees")
 public class Employee {
 
     @Id
@@ -14,6 +21,10 @@ public class Employee {
     private String name;
 
     public Employee() {
+    }
+
+    public Employee(String name) {
+        this.name = name;
     }
 
     public Long getId() {
