@@ -11,6 +11,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+    CREATE INDEX idx_name ON employees(name);
+    DROP INDEX idx_name;
+
+    select * from employees order by "name"
+    Without index - 6-7 sec
+    With index - 1-2 sec
+ */
+
 @Service
 public class SqlServiceImpl implements SqlService {
 
