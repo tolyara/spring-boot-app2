@@ -14,6 +14,8 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private final int count = 25;
+
     private final EmployeeRepository employeeRepository;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
@@ -22,9 +24,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Async
-    public CompletableFuture<List<Employee>> getEmployeesByNameAsync(String name) {
+    public CompletableFuture<List<Employee>> getEmployeesByNameAsync(String name, Integer count) {
         List<String> namesToFind = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < count; i++) {
             namesToFind.add("emp-" + i);
         }
 

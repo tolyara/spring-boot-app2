@@ -5,6 +5,7 @@ import com.springboot.app2.util.LoggingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ExecutionException;
@@ -22,16 +23,21 @@ public class AsyncController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/async")
-    public Object getEmployeesByNameListAsync() {
+    @GetMapping("/async/{count}")
+    public Object getEmployeesByNameListAsync(@PathVariable Integer count) {
         Object result = null;
         try {
-            result = employeeService.getEmployeesByNameAsync("").get(5, TimeUnit.SECONDS);
+//            result = employeeService.getEmployeesByNameAsync("").get(5, TimeUnit.SECONDS);
+            result = employeeService.getEmployeesByNameAsync("", count).get();
             return result;
-        } catch (InterruptedException | TimeoutException | ExecutionException e) {
-            logger.error("{} exception occured, {}", LoggingUtil.APP, e.getMessage());
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("{} exception occured, {}", LoggingUtil.APP, e);
             return result;
         }
+//        catch (TimeoutException e) {
+//            logger.error("{} exception occured, {}", LoggingUtil.APP, e);
+//            return result;
+//        }
     }
 
 }

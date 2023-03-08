@@ -7,6 +7,6 @@ import java.util.concurrent.CompletableFuture;
 
 public interface EmployeeService {
 
-    CompletableFuture<List<Employee>> getEmployeesByNameAsync(String name);
+    CompletableFuture<List<Employee>> getEmployeesByNameAsync(String name, Integer count);
 
 }
