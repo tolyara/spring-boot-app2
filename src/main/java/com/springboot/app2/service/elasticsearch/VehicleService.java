@@ -6,4 +6,6 @@ public interface VehicleService {
 
     Boolean index(Vehicle vehicle);
 
+    Vehicle findById(String id);
+
 }

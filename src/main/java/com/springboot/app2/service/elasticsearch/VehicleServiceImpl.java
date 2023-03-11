@@ -3,6 +3,8 @@ package com.springboot.app2.service.elasticsearch;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.app2.entity.elasticsearch.Vehicle;
 import com.springboot.app2.enums.elasticsearch.Indices;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -40,6 +42,19 @@ public class VehicleServiceImpl implements VehicleService {
             return response != null && response.status().equals(RestStatus.OK);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public Vehicle findById(String id) {
+        try {
+            final GetResponse documentFields = restHighLevelClient.get(new GetRequest(Indices.VEHICLE_IDX, id), RequestOptions.DEFAULT);
+            if (documentFields == null) return null;
+            return MAPPER.readValue(documentFields.getSourceAsString(), Vehicle.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
         }
     }
 
