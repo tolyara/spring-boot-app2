@@ -6,22 +6,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.erhlc.AbstractElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.client.erhlc.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.client.erhlc.RestClients;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 
-@Configuration
-@EnableElasticsearchRepositories("com.springboot.app2.dao.elasticsearch")
-public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
-
-    @Value("${elasticsearch.url}")
-    public String elasticSearchUrl;
-
-    @Bean
-    @Override
-    public RestHighLevelClient elasticsearchClient() {
-        final ClientConfiguration config = ClientConfiguration.builder()
-                .connectedTo(elasticSearchUrl).build();
-        return RestClients.create(config).rest();
-    }
-}
+//@Configuration
+//@EnableElasticsearchRepositories("com.springboot.app2.dao.elasticsearch")
+//public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
+//
+//    @Value("${elasticsearch.url}")
+//    public String elasticSearchUrl;
+//
+//    @Bean
+//    @Override
+//    public RestHighLevelClient elasticsearchClient() {
+//        final ClientConfiguration config = ClientConfiguration.builder()
+//                .connectedTo(elasticSearchUrl).build();
+//        return RestClients.create(config).rest();
+//    }
+//
+//    @Bean
+//    public ElasticsearchOperations elasticsearchTemplate() {
+//        return new ElasticsearchRestTemplate(elasticsearchClient());
+//    }
+//
+//}
