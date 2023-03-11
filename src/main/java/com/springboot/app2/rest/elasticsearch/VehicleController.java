@@ -1,8 +1,6 @@
 package com.springboot.app2.rest.elasticsearch;
 
-import com.springboot.app2.entity.elasticsearch.Person;
 import com.springboot.app2.entity.elasticsearch.Vehicle;
-import com.springboot.app2.service.elasticsearch.PersonService;
 import com.springboot.app2.service.elasticsearch.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

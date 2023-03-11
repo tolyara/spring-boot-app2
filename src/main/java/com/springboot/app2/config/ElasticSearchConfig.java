@@ -1,5 +1,7 @@
 package com.springboot.app2.config;
 
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,17 +16,19 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @EnableElasticsearchRepositories("com.springboot.app2.dao.elasticsearch")
-public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
+public class ElasticSearchConfig /*extends AbstractElasticsearchConfiguration*/ {
 
     @Value("${elasticsearch.url}")
     public String elasticSearchUrl;
 
     @Bean
-    @Override
-    public RestHighLevelClient elasticsearchClient() {
-        final ClientConfiguration config = ClientConfiguration.builder()
-                .connectedTo(elasticSearchUrl).build();
-        return RestClients.create(config).rest();
+//    @Override
+    public RestHighLevelClient client() {
+//        final ClientConfiguration config = ClientConfiguration.builder()
+//                .connectedTo(elasticSearchUrl).build();
+//        return RestClients.create(config).rest();
+
+        return new RestHighLevelClient(RestClient.builder(new HttpHost(elasticSearchUrl)));
     }
 
 //    @Bean
