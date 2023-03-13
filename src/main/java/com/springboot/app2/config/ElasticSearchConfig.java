@@ -18,8 +18,17 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories("com.springboot.app2.dao.elasticsearch")
 public class ElasticSearchConfig /*extends AbstractElasticsearchConfiguration*/ {
 
-    @Value("${elasticsearch.url}")
-    public String elasticSearchUrl;
+//    @Value("${elasticsearch.url}")
+//    public String elasticSearchUrl;
+
+    @Value("${elasticsearch.host}")
+    private String host;
+
+    @Value("${elasticsearch.port}")
+    private int port;
+
+    @Value("${elasticsearch.protocol}")
+    private String protocol;
 
     @Bean
 //    @Override
@@ -28,7 +37,9 @@ public class ElasticSearchConfig /*extends AbstractElasticsearchConfiguration*/ 
 //                .connectedTo(elasticSearchUrl).build();
 //        return RestClients.create(config).rest();
 
-        return new RestHighLevelClient(RestClient.builder(new HttpHost(elasticSearchUrl)));
+//        return new RestHighLevelClient(RestClient.builder(new HttpHost(elasticSearchUrl)));
+
+        return new RestHighLevelClient(RestClient.builder(new HttpHost(host, port, protocol)));
     }
 
 //    @Bean

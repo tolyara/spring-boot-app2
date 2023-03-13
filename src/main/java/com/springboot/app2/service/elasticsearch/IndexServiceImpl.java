@@ -3,10 +3,10 @@ package com.springboot.app2.service.elasticsearch;
 import com.springboot.app2.enums.elasticsearch.Indices;
 import com.springboot.app2.util.FileUtil;
 import jakarta.annotation.PostConstruct;
-import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class IndexServiceImpl implements IndexService {
 
         for (String indexName : INDICES_TO_CREATE) {
             try {
-                boolean indexExists = restHighLevelClient.exists(new GetRequest(indexName), RequestOptions.DEFAULT);
+                boolean indexExists = restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
                 if (indexExists) continue;
 
                 final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");

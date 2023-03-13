@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -50,7 +51,7 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle findById(String id) {
         try {
             final GetResponse documentFields = restHighLevelClient.get(new GetRequest(Indices.VEHICLE_IDX, id), RequestOptions.DEFAULT);
-            if (documentFields == null) return null;
+            if (documentFields == null || documentFields.isSourceEmpty()) return null;
             return MAPPER.readValue(documentFields.getSourceAsString(), Vehicle.class);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
