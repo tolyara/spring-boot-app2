@@ -1,5 +1,6 @@
 package com.springboot.app2.rest.elasticsearch;
 
+import com.springboot.app2.dto.elasticsearch.SearchRequestDto;
 import com.springboot.app2.entity.elasticsearch.Vehicle;
 import com.springboot.app2.service.elasticsearch.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class VehicleController {
     @GetMapping("/{id}")
     public Vehicle findById(@PathVariable String id) {
         return vehicleService.findById(id);
+    }
+
+    @PostMapping("/search")
+    public void search(@RequestBody SearchRequestDto dto) {
+        vehicleService.search(dto);
     }
 
 }
