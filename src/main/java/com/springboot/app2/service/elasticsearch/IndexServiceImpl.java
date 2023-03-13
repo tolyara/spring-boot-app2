@@ -3,6 +3,7 @@ package com.springboot.app2.service.elasticsearch;
 import com.springboot.app2.enums.elasticsearch.Indices;
 import com.springboot.app2.util.FileUtil;
 import jakarta.annotation.PostConstruct;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -21,7 +22,7 @@ public class IndexServiceImpl implements IndexService {
 
     public final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final List<String> INDICES_TO_CREATE = List.of(Indices.VEHICLE_IDX);
+    private final List<String> INDICES = List.of(Indices.VEHICLE_IDX);
 
     private final RestHighLevelClient restHighLevelClient;
 
@@ -34,7 +35,7 @@ public class IndexServiceImpl implements IndexService {
     public void createIndicesIfNotExists() {
         final String settings = FileUtil.loadAsString("static/es-settings.json");
 
-        for (String indexName : INDICES_TO_CREATE) {
+        for (String indexName : INDICES) {
             try {
                 boolean indexExists = restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
                 if (indexExists) continue;
@@ -51,6 +52,35 @@ public class IndexServiceImpl implements IndexService {
                 logger.error(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public void recreateIndices() {
+        final String settings = FileUtil.loadAsString("static/es-settings.json");
+
+        for (String indexName : INDICES) {
+            try {
+                boolean indexExists = restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
+                if (indexExists) {
+                    restHighLevelClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
+                }
+
+                final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");
+                if (settings == null || mappings == null) {
+                    logger.error("Failed to create index with name {}", indexName);
+                }
+                final CreateIndexRequest createIndexRequest = new CreateIndexRequest(indexName);
+                createIndexRequest.settings(settings, XContentType.JSON);
+                createIndexRequest.mapping(mappings, XContentType.JSON);
+                restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    private boolean isIndexExists(String indexName) throws IOException {
+        return restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
     }
 
 }

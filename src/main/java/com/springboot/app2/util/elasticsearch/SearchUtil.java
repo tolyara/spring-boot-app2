@@ -20,11 +20,12 @@ public final class SearchUtil {
         if (fields.size() > 1) {
             MultiMatchQueryBuilder queryBuilder = QueryBuilders.multiMatchQuery(dto.getSearchItem())
                     .type(MultiMatchQueryBuilder.Type.CROSS_FIELDS)
-                    .operator(Operator.AND);
+                    .operator(Operator.AND); // Operator.OR by default
             fields.forEach(queryBuilder::field);
             return queryBuilder;
         }
 
+        // if we have only one field
         return fields.stream().findFirst()
                 .map(field -> QueryBuilders.matchQuery(field, dto.getSearchItem()).operator(Operator.AND)).orElse(null);
     }
