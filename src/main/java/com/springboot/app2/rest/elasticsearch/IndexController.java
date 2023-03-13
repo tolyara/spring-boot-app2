@@ -20,7 +20,7 @@ public class IndexController {
     }
 
     @PostMapping("/recreate")
-    public void recreateAllIndices(@RequestBody Vehicle vehicle) {
+    public void recreateAllIndices() {
         indexService.recreateIndices();
     }
 

@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,7 +80,7 @@ public class VehicleServiceImpl implements VehicleService {
             SearchHit[] searchHits = response.getHits().getHits();
             List<Vehicle> vehicles = new ArrayList<>(searchHits.length);
             for (SearchHit hit : searchHits) {
-                MAPPER.readValue(hit.getSourceAsString(), Vehicle.class);
+                vehicles.add(MAPPER.readValue(hit.getSourceAsString(), Vehicle.class));
             }
             return vehicles;
         } catch (Exception e) {

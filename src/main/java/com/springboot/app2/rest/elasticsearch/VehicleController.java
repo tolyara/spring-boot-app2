@@ -6,6 +6,8 @@ import com.springboot.app2.service.elasticsearch.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
@@ -28,8 +30,8 @@ public class VehicleController {
     }
 
     @PostMapping("/search")
-    public void search(@RequestBody SearchRequestDto dto) {
-        vehicleService.search(dto);
+    public List<Vehicle> search(@RequestBody SearchRequestDto dto) {
+        return vehicleService.search(dto);
     }
 
 }
