@@ -34,5 +34,4 @@ build/
 /.mvn/wrapper/maven-wrapper.jar
 /src/main/resources/application-local.properties
 /lib/*.jar
-/drafts/*.txt
-/drafts/*.yml
+/drafts/

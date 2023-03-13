@@ -54,6 +54,7 @@ public class IndexServiceImpl implements IndexService {
             try {
                 boolean indexExists = restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
                 if (indexExists) {
+                    logger.info("Deleting an indice : {}", indexName);
                     restHighLevelClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
                 }
                 createIndice(indexName, settings);
@@ -64,6 +65,7 @@ public class IndexServiceImpl implements IndexService {
     }
 
     private void createIndice(String indexName, String settings) throws IOException {
+        logger.info("Creating an indice : {}", indexName);
         final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");
         if (settings == null || mappings == null) {
             logger.error("Failed to create index with name {}", indexName);
