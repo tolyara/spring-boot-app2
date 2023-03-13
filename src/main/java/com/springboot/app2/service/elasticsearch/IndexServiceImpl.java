@@ -39,15 +39,7 @@ public class IndexServiceImpl implements IndexService {
             try {
                 boolean indexExists = restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
                 if (indexExists) continue;
-
-                final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");
-                if (settings == null || mappings == null) {
-                    logger.error("Failed to create index with name {}", indexName);
-                }
-                final CreateIndexRequest createIndexRequest = new CreateIndexRequest(indexName);
-                createIndexRequest.settings(settings, XContentType.JSON);
-                createIndexRequest.mapping(mappings, XContentType.JSON);
-                restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
+                createIndice(indexName, settings);
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -64,23 +56,22 @@ public class IndexServiceImpl implements IndexService {
                 if (indexExists) {
                     restHighLevelClient.indices().delete(new DeleteIndexRequest(indexName), RequestOptions.DEFAULT);
                 }
-
-                final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");
-                if (settings == null || mappings == null) {
-                    logger.error("Failed to create index with name {}", indexName);
-                }
-                final CreateIndexRequest createIndexRequest = new CreateIndexRequest(indexName);
-                createIndexRequest.settings(settings, XContentType.JSON);
-                createIndexRequest.mapping(mappings, XContentType.JSON);
-                restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
+                createIndice(indexName, settings);
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
         }
     }
 
-    private boolean isIndexExists(String indexName) throws IOException {
-        return restHighLevelClient.indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
+    private void createIndice(String indexName, String settings) throws IOException {
+        final String mappings = FileUtil.loadAsString("static/mappings/" + indexName + ".json");
+        if (settings == null || mappings == null) {
+            logger.error("Failed to create index with name {}", indexName);
+        }
+        final CreateIndexRequest createIndexRequest = new CreateIndexRequest(indexName);
+        createIndexRequest.settings(settings, XContentType.JSON);
+        createIndexRequest.mapping(mappings, XContentType.JSON);
+        restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
     }
 
 }

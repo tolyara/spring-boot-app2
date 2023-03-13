@@ -19,6 +19,12 @@ public class VehicleController {
         this.vehicleService = vehicleService;
     }
 
+    /*
+     * {
+     *     "id": "2",
+     *     "number": "AAA 2"
+     * }
+     */
     @PostMapping
     public void index(@RequestBody Vehicle vehicle) {
         vehicleService.index(vehicle);
@@ -29,6 +35,14 @@ public class VehicleController {
         return vehicleService.findById(id);
     }
 
+    /*
+     * {
+     *     "fields": [
+     *         "number"
+     *     ],
+     *     "searchItem": "AAA"
+     * }
+     */
     @PostMapping("/search")
     public List<Vehicle> search(@RequestBody SearchRequestDto dto) {
         return vehicleService.search(dto);
