@@ -1,6 +1,7 @@
 package com.springboot.app2.entity.elasticsearch;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.springboot.app2.enums.elasticsearch.DateFormats;
 
 import java.util.Date;
 
@@ -9,7 +10,7 @@ public class Vehicle {
     private String id;
     private String number;
     private String name;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormats.yyyy_MM_dd)
     private Date created; // it will be type 'date', this type can be in different cases, like some regular format or timestamp
 
     public Vehicle() {

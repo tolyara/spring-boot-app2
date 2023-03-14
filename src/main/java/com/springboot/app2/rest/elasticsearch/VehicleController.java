@@ -2,6 +2,7 @@ package com.springboot.app2.rest.elasticsearch;
 
 import com.springboot.app2.dto.elasticsearch.SearchRequestDto;
 import com.springboot.app2.entity.elasticsearch.Vehicle;
+import com.springboot.app2.enums.elasticsearch.DateFormats;
 import com.springboot.app2.service.elasticsearch.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,8 +51,11 @@ public class VehicleController {
         return vehicleService.search(dto);
     }
 
+    /*
+        http://localhost:8080/vehicle/search/2012-03-14
+     */
     @GetMapping("/search/{date}")
-    public List<Vehicle> search(@PathVariable @DateTimeFormat() Date date) {
+    public List<Vehicle> search(@PathVariable @DateTimeFormat(pattern = DateFormats.yyyy_MM_dd) Date date) {
         return vehicleService.searchVehiclesCreatedSince(date);
     }
 
