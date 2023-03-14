@@ -80,6 +80,12 @@ public class VehicleServiceImpl implements VehicleService {
         return searchVehicles(request);
     }
 
+    @Override
+    public List<Vehicle> searchVehiclesCreatedSince(SearchRequestDto dto, Date date) {
+        SearchRequest request = SearchUtil.buildSearchRequest(Indices.VEHICLE_IDX, dto, date);
+        return searchVehicles(request);
+    }
+
     private List<Vehicle> searchVehicles(SearchRequest request) {
         if (request == null) {
             logger.error("Failed to build search request");

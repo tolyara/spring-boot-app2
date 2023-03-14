@@ -16,4 +16,6 @@ public interface VehicleService {
 
     List<Vehicle> searchVehiclesCreatedSince(Date date);
 
+    List<Vehicle> searchVehiclesCreatedSince(SearchRequestDto dto, Date date);
+
 }
