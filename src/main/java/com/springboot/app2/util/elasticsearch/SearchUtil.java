@@ -10,6 +10,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public final class SearchUtil {
@@ -24,6 +25,19 @@ public final class SearchUtil {
                 SortOrder sortOrder = dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC;
                 builder = builder.sort(dto.getSortBy(), sortOrder);
             }
+
+            SearchRequest request = new SearchRequest(indexName);
+            request.source(builder);
+            return request;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static SearchRequest buildSearchRequest(String indexName, String field, Date date) {
+        try {
+            SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(getQueryBuilder(field, date));
 
             SearchRequest request = new SearchRequest(indexName);
             request.source(builder);
@@ -49,6 +63,10 @@ public final class SearchUtil {
         // if we have only one field
         return fields.stream().findFirst()
                 .map(field -> QueryBuilders.matchQuery(field, dto.getSearchItem()).operator(Operator.AND)).orElse(null);
+    }
+
+    private static QueryBuilder getQueryBuilder(String field, Date date) {
+        return QueryBuilders.rangeQuery(field).gte(date);
     }
 
 }

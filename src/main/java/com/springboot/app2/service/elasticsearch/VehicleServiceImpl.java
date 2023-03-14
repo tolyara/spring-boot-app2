@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -70,6 +71,16 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<Vehicle> search(SearchRequestDto dto) {
         SearchRequest request = SearchUtil.buildSearchRequest(Indices.VEHICLE_IDX, dto);
+        return searchVehicles(request);
+    }
+
+    @Override
+    public List<Vehicle> searchVehiclesCreatedSince(Date date) {
+        SearchRequest request = SearchUtil.buildSearchRequest(Indices.VEHICLE_IDX, "created", date);
+        return searchVehicles(request);
+    }
+
+    private List<Vehicle> searchVehicles(SearchRequest request) {
         if (request == null) {
             logger.error("Failed to build search request");
             return Collections.emptyList();
