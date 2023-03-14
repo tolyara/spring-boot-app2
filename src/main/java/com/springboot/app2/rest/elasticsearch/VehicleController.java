@@ -53,6 +53,17 @@ public class VehicleController {
      *     ],
      *     "searchItem": "AAA"
      * }
+     *
+       {
+            "fields": [
+                "name"
+            ],
+            "searchItem": "Audi",
+            "order": "ASC",
+            "page": 0,
+            "size": 2
+        }
+     *
      */
     @PostMapping("/search")
     public List<Vehicle> search(@RequestBody SearchRequestDto dto) {

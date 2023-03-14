@@ -16,7 +16,14 @@ public final class SearchUtil {
 
     public static SearchRequest buildSearchRequest(String indexName, SearchRequestDto dto) {
         try {
-            SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(getQueryBuilder(dto));
+            int page = dto.getPage();
+            int size = dto.getSize();
+            int from = page == 0 ? 0 : page * size;
+
+            SearchSourceBuilder builder = new SearchSourceBuilder()
+                    .from(from)
+                    .size(size)
+                    .postFilter(getQueryBuilder(dto));
 
             if (dto.getSortBy() != null) {
                 SortOrder sortOrder = dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC;

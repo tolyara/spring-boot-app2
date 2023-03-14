@@ -4,7 +4,7 @@ import org.elasticsearch.search.sort.SortOrder;
 
 import java.util.List;
 
-public class SearchRequestDto {
+public class SearchRequestDto extends PageRequestDto {
 
     private List<String> fields;
     private String searchItem;
