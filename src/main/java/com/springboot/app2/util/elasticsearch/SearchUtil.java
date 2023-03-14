@@ -50,7 +50,10 @@ public final class SearchUtil {
             final QueryBuilder baseSearchQueryBuilder = getQueryBuilder(dto);
             final QueryBuilder dateQueryBuilder = getQueryBuilder("created", date);
 
-            final BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery().must(baseSearchQueryBuilder).must(dateQueryBuilder);
+            final BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery()
+//                    .must(baseSearchQueryBuilder)
+                    .mustNot(baseSearchQueryBuilder)
+                    .must(dateQueryBuilder);
 
             SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(boolQueryBuilder);
 
