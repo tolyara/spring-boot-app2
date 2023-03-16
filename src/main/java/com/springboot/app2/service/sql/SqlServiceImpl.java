@@ -70,14 +70,42 @@ public class SqlServiceImpl implements SqlService {
     }
 
     public void joins() {
-        /*
-        INNER JOIN
-        LEFT OUTER JOIN
-        RIGHT OUTER JOIN
-        FULL JOIN
-        CROSS JOIN
-        SELF JOIN
+        /* students
+        "id","name","grade","supervisor_id"
+        1,"tony",200,3380
+        2,"John",7,1
+        3,"Bill",10,NULL
+        4,"Tony",8,3
+        6,"tony3",3,NULL
+        7,"stud-7",NULL,NULL
+        14,"testName9190",NULL,NULL
          */
+
+//        INNER JOIN
+        String inner = "select s.id, s.name, ss.id, ss.create_date from students s " +
+                "INNER join student_settings ss on ss.student_id = s.id;";
+
+//        LEFT OUTER JOIN
+        String left = "select s.id, s.name, ss.id, ss.create_date from students s " +
+                "LEFT join student_settings ss on ss.student_id = s.id;";
+
+//        RIGHT OUTER JOIN
+        String right = "select s.id, s.name, ss.id, ss.create_date from students s " +
+                "RIGHT join student_settings ss on ss.student_id = s.id;";
+
+//        FULL JOIN
+        String full = "select s.id, s.name, ss.id, ss.create_date from students s " +
+                "FULL join student_settings ss on ss.student_id = s.id;";
+
+//        CROSS JOIN
+        String cross = "select s.id, s.name, ss.id, ss.create_date from students s " +
+                "CROSS join student_settings ss;";
+
+//        SELF JOIN
+        String self_1 = "select s.id, s.name, sup.id from students s, students sup " +
+                "where s.supervisor_id = sup.id;";
+        String self_2 = "select s.id, s.name, sup.id from students s " +
+                "inner join students sup on s.supervisor_id = sup.id;";
     }
 
 
