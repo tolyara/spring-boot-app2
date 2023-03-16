@@ -20,3 +20,8 @@ public class App2Application {
 		SpringApplication.run(App2Application.class, args);
 	}
 }
+
+// TODO list
+// Spring Cloud
+// Reddis
+
