@@ -22,11 +22,15 @@ package com.springboot.app2.wiki;
  *
  *
  *
- * Aspect - class responsible for end-to-end (cross) functionality
+ * ASPECT - class responsible for end-to-end (cross) functionality
  *
- * Advice - method inside aspect class
+ * ADVICE - method inside aspect class ( beforeAddBookAdvice() )
  * Advice types : before, after returning, after throwing, after, around
  *
+ * POINTCUT - expression which describes where advice should be applied ( "execution(public void get*(..)" )
+ *
+ * JOINT POINT - place where main and service functionality are weaving, that is a moment in code where Advice should be used
+ * If we put Joint Point to Advice's parameter, we gain access to signature and params of main method
  *
  */
 public class SpringAOP {
