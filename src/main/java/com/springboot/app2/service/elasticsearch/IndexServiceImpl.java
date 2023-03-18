@@ -31,7 +31,7 @@ public class IndexServiceImpl implements IndexService {
         this.restHighLevelClient = restHighLevelClient;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void createIndicesIfNotExists() {
         final String settings = FileUtil.loadAsString("static/es-settings.json");
 
