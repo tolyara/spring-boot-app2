@@ -6,6 +6,8 @@ import com.springboot.app2.logger.AbstractLogger;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +24,10 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class JwtTokenProvider extends AbstractLogger {
+//public class JwtTokenProvider extends AbstractLogger {
+public class JwtTokenProvider {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${jwt.token.secret}")
     private String secret; // a secret word which is used to generate and decrypt token
@@ -34,14 +39,14 @@ public class JwtTokenProvider extends AbstractLogger {
 
     @Autowired
     public JwtTokenProvider(UserDetailsService userDetailsService) {
-        super(JwtTokenProvider.class);
+//        super(JwtTokenProvider.class);
         this.userDetailsService = userDetailsService;
     }
 
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @PostConstruct
     protected void init() {

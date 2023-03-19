@@ -70,14 +70,14 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        logger.info("IN findById - user: {} found by id: {}", result);
+        logger.info("IN findById - user: {} found by id: {}", result, id);
         return result;
     }
 
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
-        logger.info("IN delete - user with id: {} successfully deleted");
+        logger.info("IN delete - user with id: {} successfully deleted", id);
     }
 
 }

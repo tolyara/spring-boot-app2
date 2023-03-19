@@ -11,13 +11,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtUserDetailsService extends AbstractLogger implements UserDetailsService {
+//public class JwtUserDetailsService extends AbstractLogger implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UserService userService;
 
     @Autowired
     public JwtUserDetailsService(UserService userService) {
-        super(JwtUserDetailsService.class);
+//        super(JwtUserDetailsService.class);
         this.userService = userService;
     }
 
