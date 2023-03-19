@@ -1,5 +1,6 @@
-package com.springboot.app2.service.jwt;
+package com.springboot.app2.filter.jwt;
 
+import com.springboot.app2.service.jwt.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
