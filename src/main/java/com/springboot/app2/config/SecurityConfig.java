@@ -1,5 +1,6 @@
 package com.springboot.app2.config;
 
+import com.springboot.app2.service.jwt.JwtConfigurer;
 import com.springboot.app2.service.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

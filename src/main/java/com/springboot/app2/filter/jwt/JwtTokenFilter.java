@@ -29,11 +29,11 @@ public class JwtTokenFilter extends GenericFilterBean {
             throws IOException, ServletException {
         logger.info("Jwt filtering for request : {}", req.getRequestId());
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+        if (token != null && jwtTokenProvider.validateToken(token)) {   // authenticate client's token
             Authentication auth = jwtTokenProvider.getAuthentication(token);
 
             if (auth != null) {
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                SecurityContextHolder.getContext().setAuthentication(auth); // client authenticated
             }
         }
         filterChain.doFilter(req, res);
