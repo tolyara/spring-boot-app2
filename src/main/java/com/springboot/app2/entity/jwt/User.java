@@ -1,5 +1,6 @@
 package com.springboot.app2.entity.jwt;
 
+import com.springboot.app2.enums.jwt.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,5 +35,9 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
 }
