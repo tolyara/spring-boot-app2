@@ -1,6 +1,8 @@
 package com.springboot.app2.service.jwt;
 
 import com.springboot.app2.entity.jwt.Role;
+import com.springboot.app2.exception.jwt.JwtAuthenticationException;
+import com.springboot.app2.logger.AbstractLogger;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider extends AbstractLogger {
 
     @Value("${jwt.token.secret}")
-    private String secret;
+    private String secret; // a secret word which is used to generate and decrypt token
 
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
@@ -32,14 +34,14 @@ public class JwtTokenProvider {
 
     @Autowired
     public JwtTokenProvider(UserDetailsService userDetailsService) {
+        super(JwtTokenProvider.class);
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
-    }
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @PostConstruct
     protected void init() {
@@ -47,6 +49,8 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String username, List<Role> roles) {
+        logger.info("Creating jwt token for username : {}", username);
+
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleNames(roles));
 
@@ -72,13 +76,16 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
+        logger.info("Resolving jwt bearer token : {}", bearerToken);
+
         if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
         return null;
     }
 
     public boolean validateToken(String token) {
+        logger.info("Validating jwt bearer token : {}", token);
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
 
@@ -88,7 +95,7 @@ public class JwtTokenProvider {
 
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-//            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
     }
 
@@ -98,7 +105,6 @@ public class JwtTokenProvider {
         userRoles.forEach(role -> {
             result.add(role.getName());
         });
-
         return result;
     }
 
