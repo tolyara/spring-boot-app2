@@ -5,6 +5,7 @@ import com.springboot.app2.logger.AbstractLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +19,18 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
+    /*
+┌─────┐
+|  jwtTokenProvider defined in file spring-boot-app2\target\classes\com\springboot\app2\service\jwt\JwtTokenProvider.class]
+↑     ↓
+|  jwtUserDetailsService defined in file spring-boot-app2\target\classes\com\springboot\app2\service\jwt\JwtUserDetailsService.class]
+↑     ↓
+|  userServiceImpl defined in file spring-boot-app2\target\classes\com\springboot\app2\service\jwt\UserServiceImpl.class]
+└─────┘
+     */
+
     @Autowired
-    public JwtUserDetailsService(UserService userService) {
+    public JwtUserDetailsService(@Lazy UserService userService) {
 //        super(JwtUserDetailsService.class);
         this.userService = userService;
     }
