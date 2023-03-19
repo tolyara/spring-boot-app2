@@ -35,6 +35,8 @@ public class JwtTokenFilter extends GenericFilterBean {
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth); // client authenticated
             }
+        } else {
+            // TODO - throw 401 exception
         }
         filterChain.doFilter(req, res);
     }

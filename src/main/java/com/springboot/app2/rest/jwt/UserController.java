@@ -6,6 +6,9 @@ import com.springboot.app2.dto.jwt.UserDto;
 import com.springboot.app2.entity.jwt.User;
 import com.springboot.app2.service.jwt.JwtTokenProvider;
 import com.springboot.app2.service.jwt.UserService;
+import com.springboot.app2.util.LoggingUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import java.util.Map;
 @RestController
 public class UserController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
@@ -35,6 +40,7 @@ public class UserController {
 
     @PostMapping("/auth/login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+        LoggingUtil.log(logger);
         try {
             String username = requestDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
@@ -50,6 +56,7 @@ public class UserController {
             response.put("username", username);
             response.put("token", token);
 
+            logger.info( "{} /auth/login response : {} ", LoggingUtil.APP, response);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
