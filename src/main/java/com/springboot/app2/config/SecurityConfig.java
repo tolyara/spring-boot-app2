@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable() // turn off basic auth
                 .csrf().disable()   // turn off csrf protection
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't create sessions
                 .and()
                 .authorizeRequests()
 //                .antMatchers(LOGIN_ENDPOINT).permitAll()
