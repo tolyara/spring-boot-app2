@@ -43,11 +43,6 @@ public class JwtTokenProvider {
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
@@ -71,8 +66,8 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
+        logger.info("getting authentication for token {} : ", token);
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
-        logger.info("getting authentication for usernam {}, token {} : ", userDetails.getUsername(), token);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -82,7 +77,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
-        logger.info("Resolving jwt bearer token : {}", bearerToken);
+//        logger.info("Resolving jwt bearer token : {}", bearerToken);
 
         if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
             return bearerToken.substring(7);
