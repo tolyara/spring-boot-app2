@@ -36,7 +36,8 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id" })) // make a composite primary key for intermediate table
     private List<Role> roles;
 
     @Enumerated(EnumType.STRING)
