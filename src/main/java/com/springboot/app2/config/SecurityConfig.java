@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .requestMatchers(LOGIN_ENDPOINT).permitAll()
 //                .and()
 //                .authorizeHttpRequests()
-//                .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
 
