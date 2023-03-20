@@ -44,6 +44,7 @@ public class SqlServiceImpl implements SqlService {
         employeeRepository.saveAll(employees);
     }
 
+    // TODO remove to wiki
     public void constraints() {
         /*
         NOT NULL - Restricts NULL value from being inserted into a column.
@@ -69,6 +70,7 @@ public class SqlServiceImpl implements SqlService {
         */
     }
 
+    // TODO remove to wiki
     public void joins() {
         /* students
         "id","name","grade","supervisor_id"
