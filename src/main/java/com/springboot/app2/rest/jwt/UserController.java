@@ -25,6 +25,10 @@ import java.util.Map;
 @RestController
 public class UserController {
 
+    public static final String AUTH_LOGIN = "/auth/login";
+    public static final String USERS_BY_ID = "/users/{id}";
+    public static final String ADMIN_USERS_BY_ID = "/admin/users/{id}";
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final AuthenticationManager authenticationManager;
@@ -38,7 +42,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/auth/login")
+    @PostMapping(AUTH_LOGIN)
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
         LoggingUtil.log(logger);
         try {
@@ -63,7 +67,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = USERS_BY_ID)
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
         User user = userService.findById(id);
         if (user == null) {
