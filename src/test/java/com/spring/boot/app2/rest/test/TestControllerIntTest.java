@@ -1,4 +1,4 @@
-package com.spring.boot.app2.rest.jwt.test;
+package com.spring.boot.app2.rest.test;
 
 import com.springboot.app2.rest.test.TestController;
 import jakarta.inject.Inject;
