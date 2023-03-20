@@ -30,6 +30,24 @@ public class UserControllerIntTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * TEST CASES
+     *
+     *     public static final String AUTH_LOGIN = "/auth/login";
+     *     - permit all
+     *     - correct password
+     *     - incorrect password     *
+     *
+     *     public static final String USERS_BY_ID = "/users/{id}";
+     *     - authenticated +/-
+     *     - user found
+     *     - user not found
+     *
+     *     public static final String ADMIN_USERS_BY_ID = "/admin/users/{id}";
+     *     - authenticated, has admin permission +/-
+     *
+     */
+
     @Test
     public void authTest() throws Exception {
 
