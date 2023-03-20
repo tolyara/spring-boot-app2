@@ -1,4 +1,4 @@
-package com.spring.boot.app2.rest.jwt;
+package com.springboot.app2.rest.jwt;
 
 import com.springboot.app2.App2Application;
 import com.springboot.app2.dao.jwt.UserRepository;

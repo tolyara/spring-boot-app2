@@ -1,4 +1,4 @@
-package com.spring.boot.app2.rest.test;
+package com.springboot.app2.rest.test;
 
 import com.springboot.app2.rest.test.TestController;
 import jakarta.inject.Inject;
@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
 @WebMvcTest(TestController.class)
 public class TestControllerIntTest {
 
-//    @Autowired
-    @Inject
+    @Autowired
+//    @Inject
     private MockMvc mvc;
 
     @Test

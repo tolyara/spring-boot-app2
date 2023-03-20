@@ -1,4 +1,4 @@
-package com.spring.boot.app2.fortest;
+package com.springboot.app2.fortest;
 
 import org.junit.Assert;
 import org.junit.Test;

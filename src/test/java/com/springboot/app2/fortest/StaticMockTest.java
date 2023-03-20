@@ -1,4 +1,4 @@
-package com.spring.boot.app2.fortest;
+package com.springboot.app2.fortest;
 
 import com.springboot.app2.util.fortest.StaticUtils;
 import org.assertj.core.api.Assertions;
