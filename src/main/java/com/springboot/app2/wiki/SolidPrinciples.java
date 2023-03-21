@@ -98,4 +98,9 @@ class DepositAccount extends Account {
         //logic
     }
 
+//    @Override
+//    public void payment(String numberAccount, BigDecimal sum){
+//        throw new UnsupportedOperationException("Operation not supported");
+//    }
+
 }
