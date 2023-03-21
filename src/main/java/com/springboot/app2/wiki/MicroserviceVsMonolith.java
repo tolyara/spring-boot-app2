@@ -40,6 +40,8 @@ package com.springboot.app2.wiki;
  *
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  *
+ * https://habr.com/ru/company/maxilect/blog/677128/
+ *
  * Ways of communication betwwen microservices:
  * Synchronous:
  * -  REST-like, transfer protocols (http, soap);
