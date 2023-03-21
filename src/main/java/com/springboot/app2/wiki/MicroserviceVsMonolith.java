@@ -32,11 +32,20 @@ package com.springboot.app2.wiki;
  * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  *
  * Optimal app development strategy:
- * - first develop basic structure (registration, item catalog, ordering, stock/storage/warehouse, shipping) as monolit,
+ * - first develop basic structure (registration, item catalog, ordering, stock/storage/warehouse, shipping) as monolith,
  * client's business will get time advantage on competitive market to allocate niche;
  * - then if need to integrate new functionality (card billing), build it to separate microservice;
  * - then if some service requires scaling, move it to separate microservice and scale (setup 2, 3 or more instances of it);
  * - eventually, move essential features which potentially will need extension to separate microservice, bit by bit, gradually;
+ *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Ways of communication betwwen microservices:
+ * Synchronous:
+ * -  REST-like, transfer protocols (http, soap);
+ * Asynchronous:
+ * - messaging (kafka, rabbitmq);
+ *
  */
-public class MicroserviceVsMonolit {
+public class MicroserviceVsMonolith {
 }
