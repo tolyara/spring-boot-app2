@@ -31,6 +31,38 @@ package com.springboot.app2.wiki;
  * In simple words, it makes sure that a thread waits until the execution in another thread completes before it starts its execution.
  * One cannot reuse the same CountDownLatch once the count reaches 0.
  *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Where is the variable's value cached by the thread is stored (in memory)?
+ *
+ * In CPU cache if variable is not volatile. Otherwise, volatile variable's value will not be cached
+ * (each thread works with value directly, it decreases performance but ensures sustainability).
+ *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Executors. newCachedThreadPool() vs newFixedThreadPool()     https://www.baeldung.com/java-executors-cached-fixed-threadpool
+ *
+ * CACHED THREAD POOLS are using “synchronous handoff” to queue new tasks.
+ * The basic idea of synchronous handoff is simple and yet counter-intuitive:
+ * One can queue an item if and only if another thread takes that item at the same time.
+ * In other words, the SynchronousQueue can not hold any tasks whatsoever.
+ *
+ * Suppose a new task comes in. If there is an idle thread waiting on the queue, then the task producer hands off the task to that thread.
+ * Otherwise, since the queue is always full, the executor creates a new thread to handle that task.
+ *
+ * The cached pool starts with zero threads and can potentially grow to have Integer.MAX_VALUE threads.
+ * Practically, the only limitation for a cached thread pool is the available system resources.
+ *
+ * To better manage system resources, cached thread pools will remove threads that remain idle for one minute.
+ * We should avoid cached thread pool when the execution time is unpredictable, like IO-bound tasks.
+ *
+ *
+ *  FIXED THREAD POOLS, ss opposed to the cached thread pool, this one is using an unbounded queue with a fixed number of never-expiring threads.
+ *  Therefore, instead of an ever-increasing number of threads, the fixed thread pool tries to execute incoming tasks with a fixed amount of threads.
+ *  When all threads are busy, then the executor will queue new tasks. This way, we have more control over our program's resource consumption.
+ *
+ * As a result, fixed thread pools are better suited for tasks with unpredictable execution times.
+ *
  */
 public class JavaMultithreading {
 }
