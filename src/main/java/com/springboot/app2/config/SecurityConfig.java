@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 //  https://docs.spring.io/spring-security/reference/5.8/migration/servlet/config.html
 
+// TODO - try http.authorizeRequests().antMatchers("/").permitAll();
+
 @Configuration
 //@EnableWebSecurity
 
