@@ -16,12 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// TODO Replace with SecurityFilterChain, use the new requestMatchers methods
 //  https://docs.spring.io/spring-security/reference/5.8/migration/servlet/config.html
-//  UPD: done
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
+
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
 public class SecurityConfig {
 
@@ -49,22 +48,20 @@ public class SecurityConfig {
 
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable() // turn off basic auth
-                .csrf().disable()   // turn off csrf protection
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't create sessions
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(LOGIN_ENDPOINT).permitAll()
+//        http
+//                .httpBasic().disable() // turn off basic auth
+//                .csrf().disable()   // turn off csrf protection
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't create sessions
 //                .and()
 //                .authorizeHttpRequests()
-                .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-
-//                .apply(new JwtConfigurer(jwtTokenProvider));
-                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+//                .requestMatchers(LOGIN_ENDPOINT).permitAll()
+//                .requestMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
+
+        //                .apply(new JwtConfigurer(jwtTokenProvider));
     }
 
 //    @Override
