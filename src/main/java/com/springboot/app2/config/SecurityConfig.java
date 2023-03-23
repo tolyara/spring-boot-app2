@@ -36,18 +36,12 @@ public class SecurityConfig {
     }
 
 //    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
 //    }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    @Bean
+//    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
 //                .httpBasic().disable() // turn off basic auth
 //                .csrf().disable()   // turn off csrf protection
@@ -59,10 +53,28 @@ public class SecurityConfig {
 //                .anyRequest().authenticated()
 //                .and()
 //                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+//        return http.build();
+//    }
 
-        //                .apply(new JwtConfigurer(jwtTokenProvider));
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+}
+
+
+
+
+
+
+
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
@@ -80,10 +92,3 @@ public class SecurityConfig {
 //                .and()
 //                .apply(new JwtConfigurer(jwtTokenProvider));
 //    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-}

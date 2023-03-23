@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+//@RestController
 public class UserController {
 
     public static final String AUTH_LOGIN = "/auth/login";

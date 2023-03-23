@@ -11,7 +11,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 	SpringVersion.getVersion() -> 6.0.4
  */
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+})
 @EntityScan(basePackages = {"com.springboot.app2.entity"})
 @ServletComponentScan
 @EnableAsync // for @Async feature, some executor will be supplied by Spring if we don't create custom executor by ourselves
