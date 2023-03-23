@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 
 @SpringBootApplication(exclude = {
-		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
+		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class	// disable security
 })
 @EntityScan(basePackages = {"com.springboot.app2.entity"})
 @ServletComponentScan

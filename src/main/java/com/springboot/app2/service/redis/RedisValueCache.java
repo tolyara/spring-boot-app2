@@ -4,6 +4,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class RedisValueCache {
 
@@ -15,6 +17,7 @@ public class RedisValueCache {
 
     public void cache(final String key, final Object data) {
         valueOps.set(key, data);
+//        valueOps.set(key, data, 4000, TimeUnit.MILLISECONDS);
     }
 
     public Object getCachedValue(final String key) {
