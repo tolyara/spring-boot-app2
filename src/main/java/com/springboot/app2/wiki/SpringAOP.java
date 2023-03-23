@@ -15,12 +15,12 @@ package com.springboot.app2.wiki;
  * minuses :
  * - additional time for aspect's working;
  *
- *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  *
  * AOP proxy pattern
  * Main class -> AOP proxy -> target method (e.g. addBook())
  *
- *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  *
  * ASPECT - class responsible for end-to-end (cross) functionality
  *
@@ -31,6 +31,12 @@ package com.springboot.app2.wiki;
  *
  * JOINT POINT - place where main and service functionality are weaving, that is a moment in code where Advice should be used
  * If we put Joint Point to Advice's parameter, we gain access to signature and params of main method
+ *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Usage :
+ * - logging, security check, transactions, exception handling, caching;
+ * - retry, metrics, caching, audit, notifications;
  *
  */
 public class SpringAOP {
