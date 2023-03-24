@@ -56,6 +56,9 @@ public class RedisListCache {
         return objects.stream().collect(Collectors.filtering(o -> o instanceof PersonDto, Collectors.mapping(o -> (PersonDto) o, Collectors.toList())));
     }
 
+    /*
+        gets last element AND REMOVES IT
+    */
     public PersonDto getLastElement(String key) {
         final Object o = listOperations.rightPop(key);
         return o instanceof PersonDto ? (PersonDto) o : null;

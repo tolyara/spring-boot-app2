@@ -1,6 +1,7 @@
 package com.springboot.app2.rest.redis;
 
 import com.springboot.app2.dto.redis.PersonDto;
+import com.springboot.app2.dto.redis.RangeDto;
 import com.springboot.app2.service.redis.RedisListCache;
 import com.springboot.app2.service.redis.RedisValueCache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,24 +37,27 @@ public class PersonController2 {
         valueCache.deleteCachedValue(id);
     }
 
-//    @PostMapping("/list/{key}")
-//    public void cachePersons(@PathVariable final String key, @RequestBody final List<PersonDto> persons) {
-//        listCache.cachePersons(key, persons);
-//    }
+    @PostMapping("/list/{key}")
+    public void cachePersons(@PathVariable final String key, @RequestBody final List<PersonDto> persons) {
+        listCache.cachePersons(key, persons);
+    }
 
-//    @GetMapping("/list/{key}")
-//    public List<PersonDTO> getPersonsInRange(@PathVariable final String key, @RequestBody final RangeDTO range) {
-//        return listCache.getPersonsInRange(key, range);
-//    }
+    @GetMapping("/list/{key}")
+    public List<PersonDto> getPersonsInRange(@PathVariable final String key, @RequestBody final RangeDto range) {
+        return listCache.getPersonsInRange(key, range);
+    }
 
-//    @GetMapping("/list/last/{key}")
-//    public PersonDto getLastElement(@PathVariable final String key) {
-//        return listCache.getLastElement(key);
-//    }
+    /*
+        gets last element AND REMOVES IT
+     */
+    @GetMapping("/list/last/{key}")
+    public PersonDto getLastElement(@PathVariable final String key) {
+        return listCache.getLastElement(key);
+    }
 
-//    @DeleteMapping("/list/{key}")
-//    public void trim(@PathVariable final String key, @RequestBody final RangeDTO range) {
-//        listCache.trim(key, range);
-//    }
+    @DeleteMapping("/list/{key}")
+    public void trim(@PathVariable final String key, @RequestBody final RangeDto range) {
+        listCache.trim(key, range);
+    }
 
 }
