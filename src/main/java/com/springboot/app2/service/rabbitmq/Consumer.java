@@ -22,10 +22,11 @@ public class Consumer {
     }
 
     private void listenForMessages() {
-        ConnectionFactory factory = new ConnectionFactory();
-
-        try (Connection connection = factory.newConnection()) {
+        try {
+            ConnectionFactory factory = new ConnectionFactory();
+            Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
+
             channel.queueDeclare(RabbitmqUtil.QUEUE, false, false, false, null);
             channel.queueBind(RabbitmqUtil.QUEUE, RabbitmqUtil.EXCHANGE, RabbitmqUtil.ROUTING_KEY);
             channel.basicConsume(RabbitmqUtil.QUEUE, false,
