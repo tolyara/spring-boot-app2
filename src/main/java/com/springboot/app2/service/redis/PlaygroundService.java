@@ -20,7 +20,7 @@ public class PlaygroundService {
         this.locker = locker;
     }
 
-    @PostConstruct
+//    @PostConstruct
     private void setup() {
         CompletableFuture.runAsync(() -> runTask("1", 3000));
         CompletableFuture.runAsync(() -> runTask("2", 1000));

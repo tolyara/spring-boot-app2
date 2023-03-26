@@ -28,7 +28,7 @@ public class RedisListCache {
         this.listOperations = redisTemplate.opsForList();
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void setup() {
         listOperations.leftPush("key", "Hello there from Redis");
         logger.info("{} {}", LoggingUtil.APP, listOperations.rightPop("key"));
