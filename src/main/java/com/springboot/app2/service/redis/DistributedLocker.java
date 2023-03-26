@@ -25,7 +25,7 @@ public class DistributedLocker {
 
     public <T> LockExecutionResult<T> lock(final String key,
                                            final int howLongShouldLockBeAcquiredSeconds,
-                                           final int lockTimeoutSeconds,
+                                           final int lockTimeoutSeconds, // how long this lock should be kept in Redis, if task will not be completed after this time, the lock should be released
                                            final Callable<T> task) {
         try {
             return tryToGetLock(() -> {
