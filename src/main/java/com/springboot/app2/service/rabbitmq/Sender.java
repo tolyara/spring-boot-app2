@@ -38,7 +38,7 @@ public class Sender {
 
     private void askForMessage(Scanner scanner) {
         logger.info("Enter your message : ");
-        String message = scanner.nextLine();
+        String message = scanner.nextLine();    // + LocalDateTime.now
         sendMessage(message);
         askForMessage(scanner);
     }
