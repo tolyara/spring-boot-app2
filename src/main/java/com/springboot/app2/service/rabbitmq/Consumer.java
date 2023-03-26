@@ -16,7 +16,7 @@ public class Consumer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostConstruct
+//    @PostConstruct
     private void init() {
         listenForMessages();
     }

@@ -18,7 +18,7 @@ public class Sender {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostConstruct
+//    @PostConstruct
     private void init() {
         Scanner scanner = new Scanner(System.in);
         askForMessage(scanner);
