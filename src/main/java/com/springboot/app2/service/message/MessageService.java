@@ -1,7 +1,9 @@
 package com.springboot.app2.service.message;
 
+import com.springboot.app2.dto.MessageResponse;
+
 public interface MessageService {
 
-    void saveMessage(String message);
+    MessageResponse saveMessage(String message);
 
 }

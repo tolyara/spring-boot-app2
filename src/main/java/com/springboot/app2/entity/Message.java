@@ -1,11 +1,15 @@
 package com.springboot.app2.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "messages")
+@Data
+@NoArgsConstructor
 public class Message {
 
     @Id
