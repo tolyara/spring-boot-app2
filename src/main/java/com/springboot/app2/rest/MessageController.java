@@ -1,5 +1,6 @@
 package com.springboot.app2.rest;
 
+import com.springboot.app2.dto.MessageDto;
 import com.springboot.app2.dto.MessageResponse;
 import com.springboot.app2.entity.Message;
 import com.springboot.app2.service.message.MessageService;
@@ -17,10 +18,15 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    // TODO - replace with POST
+    @Deprecated
     @GetMapping("/{message}")
-    public MessageResponse sendMessage(@PathVariable String message) {
+    public MessageResponse sendMessageOld(@PathVariable String message) {
         return messageService.saveMessage(message);
+    }
+
+    @PostMapping
+    public MessageResponse sendMessage(@RequestBody MessageDto messageDto) {
+        return messageService.saveMessage(messageDto.getMessage());
     }
 
 }
