@@ -1,10 +1,9 @@
 package com.springboot.app2.rest.test;
 
+import com.springboot.app2.dao.TestBookRepository;
 import com.springboot.app2.entity.fortest.TestBook;
-import com.springboot.app2.service.test.prototype.TestComponent1;
-import com.springboot.app2.service.test.prototype.TestComponent2;
+import com.springboot.app2.service.hibernate.HibernateService;
 import com.springboot.app2.util.LoggingUtil;
-import com.springboot.app2.util.RandomUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -19,10 +18,13 @@ public class TestBookController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final EntityManager entityManager;
+//    private final HibernateService hibernateService;
+    private final TestBookRepository testBookRepository;
 
     @Autowired
-    public TestBookController(EntityManager entityManager) {
+    public TestBookController(EntityManager entityManager, TestBookRepository testBookRepository) {
         this.entityManager = entityManager;
+        this.testBookRepository = testBookRepository;
     }
 
     @GetMapping("/testbook")
@@ -35,8 +37,9 @@ public class TestBookController {
 //        entityManager.persist(testBook);
 //        entityManager.flush();
 
-        TestBook testBook1 = entityManager.find(TestBook.class, 1L);
-        logger.info(testBook1.getName());
+        TestBook testBook1 = testBookRepository.findById(1L).get();
+        logger.info("book : {}", testBook1.getName());
+        logger.info("author : {} {}", testBook1.getAuthor().getFirstName(), testBook1.getAuthor().getLastName());
     }
 
 }

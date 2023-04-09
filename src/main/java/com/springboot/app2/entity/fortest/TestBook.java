@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "test_books")
 @Data
 @NoArgsConstructor
-public final class TestBook {
+public class TestBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
