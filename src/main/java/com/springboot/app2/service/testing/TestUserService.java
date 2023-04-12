@@ -14,7 +14,7 @@ public class TestUserService {
     private static List<TestUserDto> USERS = List.of(
             new TestUserDto(String.valueOf(RandomUtil.generateRandomLongValue()), "James Bond", "007", 21, TestUserType.ADMIN),
             new TestUserDto(String.valueOf(RandomUtil.generateRandomLongValue()), "Frank Castle", "punisher", 40, TestUserType.MODERATOR),
-            new TestUserDto(String.valueOf(RandomUtil.generateRandomLongValue()), "T Pain", "MrT", 40, TestUserType.USER)
+            new TestUserDto(String.valueOf(RandomUtil.generateRandomLongValue()), "T Pain", "MrT", 46, TestUserType.USER)
     );
 
     public String hello() {

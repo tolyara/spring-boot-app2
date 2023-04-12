@@ -1,5 +1,6 @@
 package com.springboot.app2.service.testing;
 
+import com.springboot.app2.dto.testing.TestUserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class TestUserServiceTest {
     }
 
     @Test
-    public void getAllUsersTest() {
+    public void getAllUsersNamesTest() {
         final List<String> names = testUserService.getAllUserNames();
 
         assertThat(names).hasSize(3)
@@ -35,6 +36,21 @@ public class TestUserServiceTest {
                 .containsExactly("James Bond", "Frank Castle", "T Pain")
                 .containsExactlyInAnyOrder("Frank Castle", "James Bond", "T Pain")
                 .contains("Frank Castle");
+
+        assertThat("T Pain").isIn(names);
+    }
+
+    @Test
+    public void getAllUsersTest() {
+        final List<TestUserDto> allUsers = testUserService.getAllUsers();
+
+        assertThat(allUsers).hasSize(3)
+                .extracting(TestUserDto::getName)
+                .containsExactly("James Bond", "Frank Castle", "T Pain");
+
+        assertThat(allUsers).hasSize(3)
+                .extracting(TestUserDto::getAge)
+                .allMatch(age -> age > 20);
     }
 
 }
