@@ -1,6 +1,7 @@
 package com.springboot.app2.service.testing;
 
 import com.springboot.app2.dto.testing.TestUserDto;
+import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +52,19 @@ public class TestUserServiceTest {
         assertThat(allUsers).hasSize(3)
                 .extracting(TestUserDto::getAge)
                 .allMatch(age -> age > 20);
+
+        final List<TestUserDto> allUsersCopy = List.of(allUsers.get(1), allUsers.get(0), allUsers.get(2));
+
+        assertThat(allUsers).hasSameElementsAs(allUsersCopy);
+    }
+
+    @Test
+    public void getAllAdminOrModeratorUsersTest() {
+        final List<TestUserDto> allAdminOrModeratorUsers = testUserService.getAllAdminOrModeratorUsers();
+
+        assertThat(allAdminOrModeratorUsers).hasSize(2)
+                .extracting(TestUserDto::getTestUserType)
+                .containsExactlyInAnyOrder(TestUserType.ADMIN, TestUserType.MODERATOR);
     }
 
 }
