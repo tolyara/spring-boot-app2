@@ -28,7 +28,13 @@ public class TestUserServiceTest {
     public void getAllUsersTest() {
         final List<String> names = testUserService.getAllUserNames();
 
-        assertThat(names).hasSize(3).startsWith("James Bond").doesNotContainNull().doesNotContain("Hello");
+        assertThat(names).hasSize(3)
+                .startsWith("James Bond")
+                .doesNotContainNull().doesNotContain("Hello")
+                .containsAnyOf("James Bond", "QWERTY")
+                .containsExactly("James Bond", "Frank Castle", "T Pain")
+                .containsExactlyInAnyOrder("Frank Castle", "James Bond", "T Pain")
+                .contains("Frank Castle");
     }
 
 }
