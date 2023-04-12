@@ -95,8 +95,11 @@ public class TestUserServiceTest {
                 .hasMessage("Index 55 out of bounds for length 3")
                 .hasMessageStartingWith("Index 55 out")
                 .hasMessageEndingWith("length 3")
-                .hasStackTraceContaining("java.lang.ArrayIndexOutOfBoundsException:")
-        ;
+                .hasStackTraceContaining("java.lang.ArrayIndexOutOfBoundsException:");
+
+        assertThatCode(() -> {
+            testUserService.getAllUsers().get(1);
+        }).doesNotThrowAnyException();
     }
 
 }
