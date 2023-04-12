@@ -67,4 +67,23 @@ public class TestUserServiceTest {
                 .containsExactlyInAnyOrder(TestUserType.ADMIN, TestUserType.MODERATOR);
     }
 
+    @Test
+    public void withDescriptionTest() {
+        final TestUserDto user = testUserService.getAllUsers().get(0);
+
+        assertThat(user.getAge())
+                .as("Checking the age of user with name %s failed", user.getName())
+                .isEqualTo(45);
+    }
+
+    @Test
+    public void withFailMessageTest() {
+        final TestUserDto user = testUserService.getAllUsers().get(0);
+
+        final int expectedAge = 21;
+        assertThat(user.getAge())
+                .withFailMessage("Should be %s", expectedAge)
+                .isEqualTo(expectedAge);
+    }
+
 }
