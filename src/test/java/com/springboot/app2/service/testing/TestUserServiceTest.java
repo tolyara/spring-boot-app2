@@ -86,4 +86,17 @@ public class TestUserServiceTest {
                 .isEqualTo(expectedAge);
     }
 
+    @Test
+    public void exceptionsTest() {
+        assertThatThrownBy(() -> {
+            testUserService.getAllUsers().get(55);
+        }).isInstanceOf(IndexOutOfBoundsException.class)
+                .hasMessageContaining("Index 55")
+                .hasMessage("Index 55 out of bounds for length 3")
+                .hasMessageStartingWith("Index 55 out")
+                .hasMessageEndingWith("length 3")
+                .hasStackTraceContaining("java.lang.ArrayIndexOutOfBoundsException:")
+        ;
+    }
+
 }
