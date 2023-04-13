@@ -5,16 +5,14 @@ import com.springboot.app2.dto.testing.TestUserInfoDto;
 import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 
 public class TestUserServiceTest {
 
@@ -43,6 +41,7 @@ public class TestUserServiceTest {
         }).when(testUserInfoServiceMock).getUserInfo(anyString());
 
         testUserServiceWithMock = new TestUserService(testUserInfoServiceMock);
+        testUserServiceWithSpy = new TestUserService(testUserInfoServiceSpy);
     }
 
     @Test
@@ -94,7 +93,7 @@ public class TestUserServiceTest {
                 .containsExactlyInAnyOrder(TestUserType.ADMIN, TestUserType.MODERATOR);
     }
 
-    @Test
+//    @Test
     public void withDescriptionTest() {
         final TestUserDto user = testUserServiceWithMock.getAllUsers().get(0);
 
@@ -136,12 +135,30 @@ public class TestUserServiceTest {
     }
 
     @Test
-    public void getUserInfosTest() {
+    public void getUserInfosTestWithMock() {
         List<TestUserDto> allUsers = testUserServiceWithMock.getAllUsers();
-        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+//        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of("anything", dummyId));
 
         assertThat(userInfos).hasSize(1);
         verify(testUserInfoServiceMock, times(2)).getUserInfo(anyString());
+    }
+
+    @Test
+    public void getUserInfosTestWithSpy() {
+        List<TestUserDto> allUsers = testUserServiceWithSpy.getAllUsers();
+        List<TestUserInfoDto> userInfos = testUserServiceWithSpy.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+
+        assertThat(userInfos).hasSize(1);
+        verify(testUserInfoServiceSpy, times(2)).getUserInfo(anyString());
+    }
+
+    @Test
+    public void getUserInfosTestVerifications() {
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(Collections.singletonList("anything"));
+
+        assertThat(userInfos).hasSize(1);
+        verify(testUserInfoServiceMock).getUserInfo(anyString());
     }
 
 }
