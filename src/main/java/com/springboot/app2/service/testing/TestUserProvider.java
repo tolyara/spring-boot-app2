@@ -41,4 +41,9 @@ public final class TestUserProvider {
         return result;
     }
 
+    public static TestUserInfoDto getUserInfo(String userId) {
+        if (userId == null) return null;
+        return getUserInfoList().stream().filter(u -> userId.equals(u.getUserId())).findFirst().orElse(null);
+    }
+
 }

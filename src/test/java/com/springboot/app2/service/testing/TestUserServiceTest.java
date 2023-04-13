@@ -1,17 +1,22 @@
 package com.springboot.app2.service.testing;
 
 import com.springboot.app2.dto.testing.TestUserDto;
+import com.springboot.app2.dto.testing.TestUserInfoDto;
 import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 public class TestUserServiceTest {
+
+    private final String dummyId = "not-there";
 
     private TestUserService testUserService;
 
@@ -20,7 +25,16 @@ public class TestUserServiceTest {
 
     @BeforeEach
     public void setup() {
-        testUserInfoService = Mockito.mock(TestUserInfoService.class);
+        testUserInfoService = mock(TestUserInfoService.class);
+
+        doAnswer(a -> {
+            String userId = a.getArgument(0);
+            if (userId.equals(dummyId)) {
+                return null;
+            }
+            return TestUserProvider.getUserInfo(userId);
+        }).when(testUserInfoService).getUserInfo(anyString());
+
         testUserService = new TestUserService(testUserInfoService);
     }
 
@@ -106,6 +120,20 @@ public class TestUserServiceTest {
         assertThatCode(() -> {
             testUserService.getAllUsers().get(1);
         }).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void getUserInfosTest_NoUserIds() {
+        assertThat(testUserService.getUserInfos(null)).isEmpty();
+        assertThat(testUserService.getUserInfos(new ArrayList<>())).isEmpty();
+    }
+
+    @Test
+    public void getUserInfosTest() {
+        List<TestUserDto> allUsers = testUserService.getAllUsers();
+        List<TestUserInfoDto> userInfos = testUserService.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+
+        assertThat(userInfos).hasSize(1);
     }
 
 }
