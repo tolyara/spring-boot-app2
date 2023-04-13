@@ -148,10 +148,18 @@ public class TestUserServiceTest {
     @Test
     public void getUserInfosTestWithSpy() {
         List<TestUserDto> allUsers = testUserServiceWithSpy.getAllUsers();
-        List<TestUserInfoDto> userInfos = testUserServiceWithSpy.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+        String id1 = allUsers.get(1).getId();
+        String id2 = dummyId;
+
+        List<TestUserInfoDto> userInfos = testUserServiceWithSpy.getUserInfos(List.of(id1, id2));
 
         assertThat(userInfos).hasSize(1);
-        verify(testUserInfoServiceSpy, times(2)).getUserInfo(anyString());
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(testUserInfoServiceSpy, times(2)).getUserInfo(argumentCaptor.capture());
+//        verify(testUserInfoServiceSpy, times(2)).getUserInfo(anyString());
+
+        List<String> capturedIds = argumentCaptor.getAllValues();
+        assertThat(capturedIds).containsExactlyInAnyOrder(id1, id2);
     }
 
     @Test
