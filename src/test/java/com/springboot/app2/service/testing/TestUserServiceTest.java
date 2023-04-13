@@ -5,6 +5,7 @@ import com.springboot.app2.dto.testing.TestUserInfoDto;
 import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -155,10 +156,24 @@ public class TestUserServiceTest {
 
     @Test
     public void getUserInfosTestVerifications() {
-        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(Collections.singletonList("anything"));
+        String id = "anything";
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(Collections.singletonList(id));
 
         assertThat(userInfos).hasSize(1);
-        verify(testUserInfoServiceMock).getUserInfo(anyString());
+
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+
+        verify(testUserInfoServiceMock).getUserInfo(argumentCaptor.capture());
+//        verify(testUserInfoServiceMock).getUserInfo(anyString());
+
+        String lastActualValue = argumentCaptor.getValue();
+        assertThat(lastActualValue).isEqualTo(id);
+    }
+
+    @Test
+    public void getUserInfosTestVerifications_NotCalled() {
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(new ArrayList<>());
+        verify(testUserInfoServiceMock, never()).getUserInfo(anyString());
     }
 
 }
