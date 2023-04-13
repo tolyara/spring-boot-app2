@@ -4,6 +4,8 @@ import com.springboot.app2.dto.testing.TestUserDto;
 import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -13,9 +15,13 @@ public class TestUserServiceTest {
 
     private TestUserService testUserService;
 
+//    @Mock
+    private TestUserInfoService testUserInfoService;
+
     @BeforeEach
     public void setup() {
-        testUserService = new TestUserService();
+        testUserInfoService = Mockito.mock(TestUserInfoService.class);
+        testUserService = new TestUserService(testUserInfoService);
     }
 
     @Test
