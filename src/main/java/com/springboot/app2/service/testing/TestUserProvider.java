@@ -8,6 +8,9 @@ import com.springboot.app2.util.RandomUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Database emulator (imitator)
+ */
 public final class TestUserProvider {
 
     private TestUserProvider() {}
@@ -18,11 +21,11 @@ public final class TestUserProvider {
             new TestUserDto(String.valueOf(RandomUtil.generateRandomLongValue()), "T Pain", "MrT", 46, TestUserType.USER)
     );
 
-    public List<TestUserDto> getUsersList() {
+    public static List<TestUserDto> getUsersList() {
         return USERS;
     }
 
-    public TestUserDto getUser(String userId) {
+    public static TestUserDto getUser(String userId) {
         if (userId == null) return null;
         return USERS.stream().filter(u -> userId.equals(u.getId())).findFirst().orElse(null);
     }
