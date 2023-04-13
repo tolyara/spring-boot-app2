@@ -179,6 +179,21 @@ public class TestUserServiceTest {
     }
 
     @Test
+    public void getUserInfosTestVerifications_ActualValue() {
+        String id = "anything";
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(Collections.singletonList(id));
+
+        assertThat(userInfos).hasSize(1);
+
+        /*
+            Could not mix actual values with "wild card" values ( like anyString() ) during the mockito verification
+            in case if method has more than one parameter
+            For instance, this will fail : verify(testUserInfoServiceMock).getUserInfo(id, anyString());
+         */
+        verify(testUserInfoServiceMock).getUserInfo(id);
+    }
+
+    @Test
     public void getUserInfosTestVerifications_NotCalled() {
         List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(new ArrayList<>());
         verify(testUserInfoServiceMock, never()).getUserInfo(anyString());
