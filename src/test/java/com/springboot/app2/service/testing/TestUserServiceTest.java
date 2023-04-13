@@ -5,12 +5,14 @@ import com.springboot.app2.dto.testing.TestUserInfoDto;
 import com.springboot.app2.enums.testing.TestUserType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
@@ -18,29 +20,34 @@ public class TestUserServiceTest {
 
     private final String dummyId = "not-there";
 
-    private TestUserService testUserService;
+    private TestUserService testUserServiceWithMock;
+    private TestUserService testUserServiceWithSpy;
 
 //    @Mock
-    private TestUserInfoService testUserInfoService;
+    private TestUserInfoService testUserInfoServiceMock;
+    private TestUserInfoService testUserInfoServiceSpy;
 
     @BeforeEach
     public void setup() {
-        testUserInfoService = mock(TestUserInfoService.class);
+        testUserInfoServiceMock = mock(TestUserInfoService.class);
+        testUserInfoServiceSpy = spy(new TestUserInfoService());
 
         doAnswer(a -> {
             String userId = a.getArgument(0);
             if (userId.equals(dummyId)) {
                 return null;
             }
-            return TestUserProvider.getUserInfo(userId);
-        }).when(testUserInfoService).getUserInfo(anyString());
 
-        testUserService = new TestUserService(testUserInfoService);
+            return new TestUserInfoDto("1", "A", "n");
+//            return TestUserProvider.getUserInfo(userId);
+        }).when(testUserInfoServiceMock).getUserInfo(anyString());
+
+        testUserServiceWithMock = new TestUserService(testUserInfoServiceMock);
     }
 
     @Test
     public void helloTest() {
-        String helloStr = testUserService.hello();
+        String helloStr = testUserServiceWithMock.hello();
 
         assertThat(helloStr).isNotNull();
         assertThat(helloStr).isEqualTo("Hello");
@@ -48,7 +55,7 @@ public class TestUserServiceTest {
 
     @Test
     public void getAllUsersNamesTest() {
-        final List<String> names = testUserService.getAllUserNames();
+        final List<String> names = testUserServiceWithMock.getAllUserNames();
 
         assertThat(names).hasSize(3)
                 .startsWith("James Bond")
@@ -63,7 +70,7 @@ public class TestUserServiceTest {
 
     @Test
     public void getAllUsersTest() {
-        final List<TestUserDto> allUsers = testUserService.getAllUsers();
+        final List<TestUserDto> allUsers = testUserServiceWithMock.getAllUsers();
 
         assertThat(allUsers).hasSize(3)
                 .extracting(TestUserDto::getName)
@@ -80,7 +87,7 @@ public class TestUserServiceTest {
 
     @Test
     public void getAllAdminOrModeratorUsersTest() {
-        final List<TestUserDto> allAdminOrModeratorUsers = testUserService.getAllAdminOrModeratorUsers();
+        final List<TestUserDto> allAdminOrModeratorUsers = testUserServiceWithMock.getAllAdminOrModeratorUsers();
 
         assertThat(allAdminOrModeratorUsers).hasSize(2)
                 .extracting(TestUserDto::getTestUserType)
@@ -89,7 +96,7 @@ public class TestUserServiceTest {
 
     @Test
     public void withDescriptionTest() {
-        final TestUserDto user = testUserService.getAllUsers().get(0);
+        final TestUserDto user = testUserServiceWithMock.getAllUsers().get(0);
 
         assertThat(user.getAge())
                 .as("Checking the age of user with name %s failed", user.getName())
@@ -98,7 +105,7 @@ public class TestUserServiceTest {
 
     @Test
     public void withFailMessageTest() {
-        final TestUserDto user = testUserService.getAllUsers().get(0);
+        final TestUserDto user = testUserServiceWithMock.getAllUsers().get(0);
 
         final int expectedAge = 21;
         assertThat(user.getAge())
@@ -109,7 +116,7 @@ public class TestUserServiceTest {
     @Test
     public void exceptionsTest() {
         assertThatThrownBy(() -> {
-            testUserService.getAllUsers().get(55);
+            testUserServiceWithMock.getAllUsers().get(55);
         }).isInstanceOf(IndexOutOfBoundsException.class)
                 .hasMessageContaining("Index 55")
                 .hasMessage("Index 55 out of bounds for length 3")
@@ -118,22 +125,23 @@ public class TestUserServiceTest {
                 .hasStackTraceContaining("java.lang.ArrayIndexOutOfBoundsException:");
 
         assertThatCode(() -> {
-            testUserService.getAllUsers().get(1);
+            testUserServiceWithMock.getAllUsers().get(1);
         }).doesNotThrowAnyException();
     }
 
     @Test
     public void getUserInfosTest_NoUserIds() {
-        assertThat(testUserService.getUserInfos(null)).isEmpty();
-        assertThat(testUserService.getUserInfos(new ArrayList<>())).isEmpty();
+        assertThat(testUserServiceWithMock.getUserInfos(null)).isEmpty();
+        assertThat(testUserServiceWithMock.getUserInfos(new ArrayList<>())).isEmpty();
     }
 
     @Test
     public void getUserInfosTest() {
-        List<TestUserDto> allUsers = testUserService.getAllUsers();
-        List<TestUserInfoDto> userInfos = testUserService.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
+        List<TestUserDto> allUsers = testUserServiceWithMock.getAllUsers();
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
 
         assertThat(userInfos).hasSize(1);
+        verify(testUserInfoServiceMock, times(2)).getUserInfo(anyString());
     }
 
 }
