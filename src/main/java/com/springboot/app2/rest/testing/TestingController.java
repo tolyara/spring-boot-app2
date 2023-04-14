@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/testing")
 public class TestingController {
@@ -18,6 +20,11 @@ public class TestingController {
     @GetMapping("/{name}")
     public TestUserDto getUserByName(@PathVariable String name) {
         return userService.getUserByName(name);
+    }
+
+    @GetMapping("/usernames")
+    public List<String> getAllUserNames() {
+        return userService.getAllUserNames();
     }
 
 }
