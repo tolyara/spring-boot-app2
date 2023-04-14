@@ -43,4 +43,8 @@ public class TestUserService {
         return userIds.stream().map(testUserInfoService::getUserInfo).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
+    public TestUserDto getUserByName(String name) {
+        return TestUserProvider.getUsersList().stream().filter(u -> u.getName().equals(name)).findFirst().orElse(null);
+    }
+
 }
