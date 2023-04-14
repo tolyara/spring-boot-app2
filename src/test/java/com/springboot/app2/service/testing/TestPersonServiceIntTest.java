@@ -19,7 +19,7 @@ public class TestPersonServiceIntTest {
 
     @Test
     public void createPersonTest_noAddress() {
-        TestPerson person = personService.createPerson(TestUserServiceTest.DUMMY_ID, "James Bond");
+        TestPerson person = personService.createPerson(-1L, "James Bond");
         assertThat(person).isNull();
     }
 

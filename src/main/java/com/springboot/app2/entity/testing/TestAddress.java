@@ -1,20 +1,32 @@
 package com.springboot.app2.entity.testing;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "test_addresses")
-@Data
-@NoArgsConstructor
 public class TestAddress {
+
+    private Long id;
+
+    private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Column(nullable = false)
-    private String name;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

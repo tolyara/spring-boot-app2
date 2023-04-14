@@ -18,7 +18,7 @@ public class TestPersonService {
         this.addressService = addressService;
     }
 
-    public TestPerson createPerson(String addressId, String personName) {
+    public TestPerson createPerson(Long addressId, String personName) {
         TestAddress address = addressService.findAddress(addressId);
         if (address == null) return null;
 

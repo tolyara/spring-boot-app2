@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface DistributedRepository<ENTITY> extends JpaRepository<ENTITY, String> {
+public interface DistributedRepository<ENTITY> extends JpaRepository<ENTITY, Long> {
 }

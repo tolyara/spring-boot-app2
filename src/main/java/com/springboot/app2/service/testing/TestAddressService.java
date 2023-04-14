@@ -21,7 +21,7 @@ public class TestAddressService {
         return addressRepository.save(newAddress);
     }
 
-    public TestAddress findAddress(String id) {
+    public TestAddress findAddress(Long id) {
         return addressRepository.findById(id).orElse(null);
     }
 

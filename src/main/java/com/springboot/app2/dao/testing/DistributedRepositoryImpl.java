@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public class DistributedRepositoryImpl<ENTITY> extends SimpleJpaRepository<ENTITY, String> implements DistributedRepository<ENTITY> {
+public class DistributedRepositoryImpl<ENTITY> extends SimpleJpaRepository<ENTITY, Long> implements DistributedRepository<ENTITY> {
 
     public DistributedRepositoryImpl(JpaEntityInformation<ENTITY, ?> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
