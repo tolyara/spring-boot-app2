@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 
 public class TestUserServiceTest {
 
-    private final String dummyId = "not-there";
+    public static final String DUMMY_ID = "not-there";
 
     private TestUserService testUserServiceWithMock;
     private TestUserService testUserServiceWithSpy;
@@ -33,7 +33,7 @@ public class TestUserServiceTest {
 
         doAnswer(a -> {
             String userId = a.getArgument(0);
-            if (userId.equals(dummyId)) {
+            if (userId.equals(DUMMY_ID)) {
                 return null;
             }
 
@@ -139,7 +139,7 @@ public class TestUserServiceTest {
     public void getUserInfosTestWithMock() {
         List<TestUserDto> allUsers = testUserServiceWithMock.getAllUsers();
 //        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of(allUsers.get(1).getId(), dummyId));
-        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of("anything", dummyId));
+        List<TestUserInfoDto> userInfos = testUserServiceWithMock.getUserInfos(List.of("anything", DUMMY_ID));
 
         assertThat(userInfos).hasSize(1);
         verify(testUserInfoServiceMock, times(2)).getUserInfo(anyString());
@@ -149,7 +149,7 @@ public class TestUserServiceTest {
     public void getUserInfosTestWithSpy() {
         List<TestUserDto> allUsers = testUserServiceWithSpy.getAllUsers();
         String id1 = allUsers.get(1).getId();
-        String id2 = dummyId;
+        String id2 = DUMMY_ID;
 
         List<TestUserInfoDto> userInfos = testUserServiceWithSpy.getUserInfos(List.of(id1, id2));
 
