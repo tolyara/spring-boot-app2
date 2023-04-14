@@ -21,13 +21,13 @@ public class ElasticSearchConfig /*extends AbstractElasticsearchConfiguration*/ 
 //    @Value("${elasticsearch.url}")
 //    public String elasticSearchUrl;
 
-    @Value("${elasticsearch.host}")
+    @Value("${elasticsearch.host:localhost}")
     private String host;
 
-    @Value("${elasticsearch.port}")
+    @Value("${elasticsearch.port:9200}")
     private int port;
 
-    @Value("${elasticsearch.protocol}")
+    @Value("${elasticsearch.protocol:http}")
     private String protocol;
 
     @Bean
