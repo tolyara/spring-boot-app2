@@ -29,10 +29,10 @@ public class JwtTokenProvider {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${jwt.token.secret}")
+    @Value("${jwt.token.secret:jwtapp2}")
     private String secret; // a secret word which is used to generate and decrypt token
 
-    @Value("${jwt.token.expired}")
+    @Value("${jwt.token.expired:3600000}")
     private long validityInMilliseconds;
 
     private final UserDetailsService userDetailsService;
