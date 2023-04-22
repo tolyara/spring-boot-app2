@@ -13,4 +13,9 @@ public class InhPen extends InhProduct {
 
     private String color;
 
+    public InhPen(String name, String color) {
+        super.setName(name);
+        this.color = color;
+    }
+
 }

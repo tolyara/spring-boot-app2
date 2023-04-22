@@ -7,6 +7,8 @@ import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient;
 import com.springboot.app2.entity.inheritance.mappedsuperclass.InhEmployee;
+import com.springboot.app2.entity.inheritance.singletable.InhBook;
+import com.springboot.app2.entity.inheritance.singletable.InhPen;
 import com.springboot.app2.util.LoggingUtil;
 import com.springboot.app2.util.RandomUtil;
 import jakarta.annotation.PostConstruct;
@@ -269,9 +271,13 @@ public class HibernateServiceImpl implements HibernateService {
 //            inhClient.setName("client1");
 //            inhClient.setAddress("address1");
 
-            InhEmployee object = new InhEmployee();
-            object.setName("employee1");
-            object.setCompany("company1");
+//            InhEmployee object = new InhEmployee();
+//            object.setName("employee1");
+//            object.setCompany("company1");
+
+
+//            InhBook object = new InhBook("book1", "author1");
+            InhPen object = new InhPen("pen1", "color1");
 
             session.persist(object);
             session.flush();

@@ -13,4 +13,9 @@ public class InhBook extends InhProduct {
 
     private String author;
 
+    public InhBook(String name, String author) {
+        super.setName(name);
+        this.author = author;
+    }
+
 }
