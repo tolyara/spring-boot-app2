@@ -263,7 +263,7 @@ public class HibernateServiceImpl implements HibernateService {
     }
 
     @Override
-    public void testInheritance(Long id) {
+    public void testInheritance(Long id, String name) {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
 
@@ -281,8 +281,8 @@ public class HibernateServiceImpl implements HibernateService {
 //            InhBook object = new InhBook("book1", "author1");
 //            InhPen object = new InhPen("pen1", "color1");
 
-//            InhBird object = new InhBird("parrot", "2");
-            InhMammal object = new InhMammal("cat", "4");
+            InhBird object = new InhBird(name, "2");
+//            InhMammal object = new InhMammal("cat", "4");
 
             session.persist(object);
             session.flush();

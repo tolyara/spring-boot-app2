@@ -29,7 +29,7 @@ public class HibernateController {
 
 //        return hibernateService.testNamedQuery(id, name);
 
-        hibernateService.testInheritance(id);
+        hibernateService.testInheritance(id, name);
         return null;
     }
 
