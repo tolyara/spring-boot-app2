@@ -18,4 +18,6 @@ public interface HibernateService {
 
     Object testNamedQuery(Long id, String name);
 
+    void testInheritance(Long id);
+
 }

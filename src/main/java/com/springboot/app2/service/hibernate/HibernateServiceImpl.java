@@ -5,6 +5,8 @@ import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
+import com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient;
+import com.springboot.app2.entity.inheritance.mappedsuperclass.InhEmployee;
 import com.springboot.app2.util.LoggingUtil;
 import com.springboot.app2.util.RandomUtil;
 import jakarta.annotation.PostConstruct;
@@ -254,6 +256,27 @@ public class HibernateServiceImpl implements HibernateService {
 //            logger.info("Pets : {}", pets);
 //            return pets;
 //        }
+    }
+
+    @Override
+    public void testInheritance(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+
+//            InhClient inhClient = new InhClient(0L, "client1", "address1"); // org.hibernate.PersistentObjectException: detached entity passed to persist: com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient
+
+//            InhClient inhClient = new InhClient();
+//            inhClient.setName("client1");
+//            inhClient.setAddress("address1");
+
+            InhEmployee object = new InhEmployee();
+            object.setName("employee1");
+            object.setCompany("company1");
+
+            session.persist(object);
+            session.flush();
+            tx.commit();
+        }
     }
 
 }

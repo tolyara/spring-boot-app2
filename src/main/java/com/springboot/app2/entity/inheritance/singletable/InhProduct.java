@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="inh_product_type", discriminatorType = DiscriminatorType.INTEGER) // by default: "dtype", character varying (31)
 public class InhProduct {
 
     @Id
