@@ -1,4 +1,4 @@
-package com.springboot.app2.entity.inheritance;
+package com.springboot.app2.entity.inheritance.mappedsuperclass;
 
 import jakarta.persistence.Entity;
 import lombok.Data;

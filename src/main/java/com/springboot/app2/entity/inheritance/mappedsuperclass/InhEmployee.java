@@ -1,8 +1,6 @@
-package com.springboot.app2.entity.inheritance;
+package com.springboot.app2.entity.inheritance.mappedsuperclass;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
