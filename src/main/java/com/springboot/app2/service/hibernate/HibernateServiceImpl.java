@@ -11,6 +11,8 @@ import com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient;
 import com.springboot.app2.entity.inheritance.mappedsuperclass.InhEmployee;
 import com.springboot.app2.entity.inheritance.singletable.InhBook;
 import com.springboot.app2.entity.inheritance.singletable.InhPen;
+import com.springboot.app2.entity.inheritance.tableperclass.InhCar;
+import com.springboot.app2.entity.inheritance.tableperclass.InhShip;
 import com.springboot.app2.util.LoggingUtil;
 import com.springboot.app2.util.RandomUtil;
 import jakarta.annotation.PostConstruct;
@@ -281,8 +283,11 @@ public class HibernateServiceImpl implements HibernateService {
 //            InhBook object = new InhBook("book1", "author1");
 //            InhPen object = new InhPen("pen1", "color1");
 
-            InhBird object = new InhBird(name, "2");
+//            InhBird object = new InhBird(name, "2");
 //            InhMammal object = new InhMammal("cat", "4");
+
+            InhCar object = new InhCar(name, "AEM");
+//            InhShip object = new InhShip(name, "1000");
 
             session.persist(object);
             session.flush();
