@@ -5,6 +5,8 @@ import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
+import com.springboot.app2.entity.inheritance.joinedtable.InhBird;
+import com.springboot.app2.entity.inheritance.joinedtable.InhMammal;
 import com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient;
 import com.springboot.app2.entity.inheritance.mappedsuperclass.InhEmployee;
 import com.springboot.app2.entity.inheritance.singletable.InhBook;
@@ -277,7 +279,10 @@ public class HibernateServiceImpl implements HibernateService {
 
 
 //            InhBook object = new InhBook("book1", "author1");
-            InhPen object = new InhPen("pen1", "color1");
+//            InhPen object = new InhPen("pen1", "color1");
+
+//            InhBird object = new InhBird("parrot", "2");
+            InhMammal object = new InhMammal("cat", "4");
 
             session.persist(object);
             session.flush();
