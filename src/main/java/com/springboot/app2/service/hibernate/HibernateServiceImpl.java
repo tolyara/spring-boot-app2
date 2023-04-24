@@ -3,6 +3,7 @@ package com.springboot.app2.service.hibernate;
 import com.springboot.app2.dao.PetRepository;
 import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
+import com.springboot.app2.dao.fetchmode.FmCustomerRepository;
 import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
 import com.springboot.app2.entity.fetchmode.FmCustomer;
@@ -33,15 +34,19 @@ public class HibernateServiceImpl implements HibernateService {
 
     private final EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
+
     private final StudentRepository studentRepository;
     private final StudentSettingsRepository studentSettingsRepository;
     private final PetRepository petRepository;
+    private final FmCustomerRepository customerRepository;
+
     private SessionFactory sessionFactory;
 
     @Autowired
     public HibernateServiceImpl(EntityManager entityManager, EntityManagerFactory entityManagerFactory,
                                 StudentRepository studentRepository, StudentSettingsRepository studentSettingsRepository,
-                                PetRepository petRepository) {
+                                PetRepository petRepository, FmCustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
         LoggingUtil.log(logger);
         this.studentRepository = studentRepository;
         this.studentSettingsRepository = studentSettingsRepository;
@@ -289,20 +294,22 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public Object testFetch(Long id, String name) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction tx = session.beginTransaction();
+        return customerRepository.findAll();
 
-            FmCustomer customer = new FmCustomer("fm_customer_" + name);
-            session.persist(customer);
-            session.flush();
-
-            FmOrder order = new FmOrder("fm_order_" + name, customer);
-            session.persist(order);
-            session.flush();
-
-            tx.commit();
-        }
-        return null;
+//        try (Session session = sessionFactory.openSession()) {
+//            Transaction tx = session.beginTransaction();
+//
+//            FmCustomer customer = new FmCustomer("fm_customer_" + name);
+//            session.persist(customer);
+//            session.flush();
+//
+//            FmOrder order = new FmOrder("fm_order_" + name, customer);
+//            session.persist(order);
+//            session.flush();
+//
+//            tx.commit();
+//        }
+//        return null;
     }
 
 }
