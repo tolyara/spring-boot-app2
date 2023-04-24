@@ -24,7 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -294,7 +296,21 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public Object testFetch(Long id, String name) {
-        return customerRepository.findAll();
+//        List<FmCustomer> customers = customerRepository.findAll();
+        List<FmCustomer> customers = customerRepository.findByNameStartingWith("fm_customer_");
+        logger.info("Customers : {}", customers);
+
+        for (FmCustomer customer : customers) {
+            Set<FmOrder> orders = customer.getOrders();
+            Set<FmOrder> customerOrders = new HashSet<>();
+
+//            customerOrders.add(new FmOrder("tst", customer));
+            for (FmOrder order : orders) {
+                customerOrders.add(new FmOrder(order.getId(), order.getName(), customer));
+            }
+            logger.info("Customer orders : {}", customerOrders);
+        }
+        return customers;
 
 //        try (Session session = sessionFactory.openSession()) {
 //            Transaction tx = session.beginTransaction();
