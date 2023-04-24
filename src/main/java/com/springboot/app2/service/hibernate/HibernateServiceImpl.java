@@ -5,14 +5,9 @@ import com.springboot.app2.dao.StudentRepository;
 import com.springboot.app2.dao.StudentSettingsRepository;
 import com.springboot.app2.entity.Pet;
 import com.springboot.app2.entity.Student;
-import com.springboot.app2.entity.inheritance.joinedtable.InhBird;
-import com.springboot.app2.entity.inheritance.joinedtable.InhMammal;
-import com.springboot.app2.entity.inheritance.mappedsuperclass.InhClient;
-import com.springboot.app2.entity.inheritance.mappedsuperclass.InhEmployee;
-import com.springboot.app2.entity.inheritance.singletable.InhBook;
-import com.springboot.app2.entity.inheritance.singletable.InhPen;
+import com.springboot.app2.entity.fetchmode.FmCustomer;
+import com.springboot.app2.entity.fetchmode.FmOrder;
 import com.springboot.app2.entity.inheritance.tableperclass.InhCar;
-import com.springboot.app2.entity.inheritance.tableperclass.InhShip;
 import com.springboot.app2.util.LoggingUtil;
 import com.springboot.app2.util.RandomUtil;
 import jakarta.annotation.PostConstruct;
@@ -20,8 +15,6 @@ import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -293,6 +285,24 @@ public class HibernateServiceImpl implements HibernateService {
             session.flush();
             tx.commit();
         }
+    }
+
+    @Override
+    public Object testFetch(Long id, String name) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+
+            FmCustomer customer = new FmCustomer("fm_customer_" + name);
+            session.persist(customer);
+            session.flush();
+
+            FmOrder order = new FmOrder("fm_order_" + name, customer);
+            session.persist(order);
+            session.flush();
+
+            tx.commit();
+        }
+        return null;
     }
 
 }

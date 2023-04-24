@@ -22,4 +22,9 @@ public class FmOrder {
     @Fetch(FetchMode.SELECT)
     private FmCustomer customer;
 
+    public FmOrder(String name, FmCustomer customer) {
+        this.name = name;
+        this.customer = customer;
+    }
+
 }

@@ -18,7 +18,16 @@ public class FmCustomer {
 
     private String name;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<FmOrder> orders = new HashSet<>();
+
+    public FmCustomer(String name, Set<FmOrder> orders) {
+        this.name = name;
+        this.orders = orders;
+    }
+
+    public FmCustomer(String name) {
+        this.name = name;
+    }
 
 }

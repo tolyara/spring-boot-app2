@@ -20,4 +20,6 @@ public interface HibernateService {
 
     void testInheritance(Long id, String name);
 
+    Object testFetch(Long id, String name);
+
 }
