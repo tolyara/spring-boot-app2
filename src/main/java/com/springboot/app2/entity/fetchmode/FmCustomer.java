@@ -50,7 +50,10 @@ import java.util.Set;
  *
  *
  * FetchMode.SUBSELECT
+ * With this setup, we go back to one query for the Customer and one query for the Orders, using a sub-select this time:
  *
+ * Hibernate: select f1_0.id,f1_0.name from fm_customer f1_0
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id in(select f1_0.id from fm_customer f1_0)
  *
  */
 
@@ -66,7 +69,10 @@ public class FmCustomer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonIgnore
 
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
+
+//    @Fetch(FetchMode.JOIN)
+
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 5)
     private Set<FmOrder> orders = new HashSet<>();
