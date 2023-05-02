@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  *
- *
+ * https://www.baeldung.com/hibernate-fetchmode
  *
  *  @Fetch(FetchMode.SELECT)
  *
@@ -21,16 +21,24 @@ import java.util.Set;
  * In our example, that gives one query to load the Customers and five additional queries to load the orders collection.
  * This is known as the n + 1 select problem. Executing one query will trigger n additional queries.
  *
- * For 3 records, each record has one child entity:
+ * For 5 records, each record has one child entity:
+ * Hibernate: select f1_0.id,f1_0.name from fm_customer f1_0 where f1_0.name like (?||'%') escape ''
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ *
+ * This is known as the n + 1 select problem. Executing one query will trigger n additional queries.
+ *
+ * @BatchSize
+ * FetchMode.SELECT has an optional configuration annotation using the @BatchSize annotation.
+ * In our example, we have just five orders so one query is enough.
+ *
  * Hibernate: select f1_0.id,f1_0.name from fm_customer f1_0
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
- * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id=?
+ * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id in(?,?,?,?,?)
  *
- *
+ * But it will only be run once. Now we have just two queries: One to load the Customer and one to load the orders collection.
  *
  */
 
@@ -44,9 +52,9 @@ public class FmCustomer {
     private String name;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    @Fetch(FetchMode.JOIN)
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 5)
+//    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 5)
     @JsonIgnore
     private Set<FmOrder> orders = new HashSet<>();
 
