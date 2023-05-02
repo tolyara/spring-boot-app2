@@ -296,15 +296,23 @@ public class HibernateServiceImpl implements HibernateService {
 
     @Override
     public Object testFetch(Long id, String name) {
-        List<FmCustomer> customers = customerRepository.findAll();
-//        List<FmCustomer> customers = customerRepository.findByNameStartingWith("fm_customer_");
-        logger.info("Customers : {}", customers);
+        FmCustomer customer = customerRepository.findById(id).get();
+        logger.info("Customer : {}", customer);
 
-        for (FmCustomer customer : customers) {
-            Set<FmOrder> orders = customer.getOrders();
-            logger.info("Customer orders : {}", orders);
-        }
-        return customers;
+        Set<FmOrder> orders = customer.getOrders();
+        logger.info("Customer orders : {}", orders);
+        return customer;
+
+
+//        List<FmCustomer> customers = customerRepository.findAll();
+//        logger.info("Customers : {}", customers);
+//
+//        for (FmCustomer customer : customers) {
+//            Set<FmOrder> orders = customer.getOrders();
+//            logger.info("Customer orders : {}", orders);
+//        }
+//        return customers;
+
 
 //        try (Session session = sessionFactory.openSession()) {
 //            Transaction tx = session.beginTransaction();

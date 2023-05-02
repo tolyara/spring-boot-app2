@@ -15,8 +15,7 @@ import java.util.Set;
  *
  * https://www.baeldung.com/hibernate-fetchmode
  *
- *  @Fetch(FetchMode.SELECT)
- *
+ * FetchMode.SELECT
  * The Hibernate FetchMode.SELECT generates a separate query for each Order that needs to be loaded.
  * In our example, that gives one query to load the Customers and five additional queries to load the orders collection.
  * This is known as the n + 1 select problem. Executing one query will trigger n additional queries.
@@ -31,7 +30,8 @@ import java.util.Set;
  *
  * This is known as the n + 1 select problem. Executing one query will trigger n additional queries.
  *
- * @BatchSize
+ *
+ * BatchSize
  * FetchMode.SELECT has an optional configuration annotation using the @BatchSize annotation.
  * In our example, we have just five orders so one query is enough.
  *
@@ -39,6 +39,18 @@ import java.util.Set;
  * Hibernate: select o1_0.customer_id,o1_0.id,o1_0.name from fm_order o1_0 where o1_0.customer_id in(?,?,?,?,?)
  *
  * But it will only be run once. Now we have just two queries: One to load the Customer and one to load the orders collection.
+ *
+ *
+ *
+ * FetchMode.JOIN
+ * While FetchMode.SELECT loads relations lazily, FetchMode.JOIN loads them eagerly, say via a join:
+ *
+ * Hibernate: select f1_0.id,f1_0.name,o1_0.customer_id,o1_0.id,o1_0.name from fm_customer f1_0 left join fm_order o1_0 on f1_0.id=o1_0.customer_id where f1_0.id=?
+ *
+ *
+ *
+ * FetchMode.SUBSELECT
+ *
  *
  */
 
@@ -52,10 +64,11 @@ public class FmCustomer {
     private String name;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.JOIN)
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 5)
     @JsonIgnore
+
+    @Fetch(FetchMode.JOIN)
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 5)
     private Set<FmOrder> orders = new HashSet<>();
 
     public FmCustomer() {
