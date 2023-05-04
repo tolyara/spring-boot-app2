@@ -70,6 +70,19 @@ public class HibernateServiceImpl implements HibernateService {
     }
 
     @Override
+    public Object testCache(Long id, String name) {
+        try (Session session = sessionFactory.openSession()) {
+            Student student1 = session.get(Student.class, id);
+            logger.info("student1 = {}", student1);
+            student1.setName(name);
+
+            Student student2 = session.get(Student.class, id);
+            logger.info("student2 = {}", student2); // an updated name will shown
+        }
+        return null;
+    }
+
+    @Override
     public void testFirstCacheLevel() {
 //        logger.info("method {}()", Thread.currentThread().getStackTrace()[1].getMethodName());
         Session session = entityManager.unwrap(Session.class);

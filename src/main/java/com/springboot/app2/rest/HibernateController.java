@@ -32,7 +32,9 @@ public class HibernateController {
 //        hibernateService.testInheritance(id, name);
 //        return null;
 
-        return hibernateService.testFetch(id, name);
+//        return hibernateService.testFetch(id, name);
+
+        return hibernateService.testCache(id, name);
     }
 
     @DeleteMapping("/hibernate/{id}")
