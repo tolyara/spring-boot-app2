@@ -28,7 +28,7 @@ public class SingletonBean implements ApplicationContextAware {
     private PrototypeBean prototypeBean;
 
     public SingletonBean() {
-        logger.info("Singleton instance created");
+//        logger.info("Singleton instance created");
     }
 
     public PrototypeBean getPrototypeBean() {
