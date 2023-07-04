@@ -34,3 +34,4 @@ build/
 /.mvn/wrapper/maven-wrapper.jar
 /src/main/resources/application-local.properties
 /drafts/
+/screenshots/
