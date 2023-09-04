@@ -24,12 +24,12 @@ public class StreamVsParallelStream {
         ExecutorService executorService = Executors.newFixedThreadPool(threads);
         List<Callable<String>> tasks = IntStream.rangeClosed(1, threads).mapToObj(i -> task).collect(Collectors.toList());
 
-        /*
+        /**
             sync (blocking)
          */
 //        List<String> result = tasks.stream().map(taska -> {
 
-        /*
+        /**
             async
          */
         List<String> result = tasks.parallelStream().map(taska -> {
