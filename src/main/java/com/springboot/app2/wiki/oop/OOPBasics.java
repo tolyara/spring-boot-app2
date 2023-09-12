@@ -27,13 +27,20 @@ package com.springboot.app2.wiki.oop;
  *
  * Yes, but not vise versa (Class4)
  *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ *
+ *
  */
 
 public class OOPBasics {
 
     public static void main(String[] args) {
 //        OOPBasics.test("qwerty");
-        OOPBasics.test(10);
+//        OOPBasics.test(10);
+
+        System.out.println(Class5.test());
+        System.out.println(Class55.test());
     }
 
     public static void test(String s) {
@@ -87,5 +94,27 @@ class Class44 extends Class4 {
         System.out.println("String : ");
         return 1;
     }
+
+}
+
+class Class5 {
+
+    public static Integer test() {
+        return 0;
+    }
+
+    private void test2() {}
+
+}
+
+class Class55 extends Class5 {
+
+    public static Integer test() {
+        return 1;
+    }
+
+//    @Override
+    private void test2() {}     // not override, just the method with same signature as in parent class
+    // Class5'; attempting to assign weaker access privileges ('private'); was 'packageLocal'
 
 }
