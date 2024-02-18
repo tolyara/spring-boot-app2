@@ -1,4 +1,4 @@
-package com.springboot.app2.wiki;
+package com.springboot.app2.wiki.hibernate;
 
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
