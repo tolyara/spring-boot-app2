@@ -7,6 +7,16 @@ package com.springboot.app2.wiki;
  * dependencies inject to bean -> init method -> bean is ready ->
  * destroy-method -> app stops
  *
+ * ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Servlet container implementations:
+ * - Apache Tomcat (formerly Jakarta Tomcat)
+ * - Apache Geronimo
+ * - Jetty
+ * - GlassFish
+ * - WildFly (formerly JBoss Application Server)
+ * etc.
+ *
  */
 public class SpringCore {
 }
