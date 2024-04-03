@@ -1,4 +1,4 @@
-package com.springboot.app2.wiki;
+package com.springboot.app2.wiki.spring;
 
 /**
  *

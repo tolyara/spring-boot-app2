@@ -1,4 +1,4 @@
-package com.springboot.app2.wiki;
+package com.springboot.app2.wiki.spring;
 
 /**
  * There are many key differences between constructor injection and setter injection.
